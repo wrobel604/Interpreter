@@ -21,6 +21,9 @@ int main(int argc, char** argv) {
 			std::cout << "|\nProgram end with error: " << e.what() << "\n";
 		}
 	}
+	else {
+		std::cout << "No program to load\n";
+	}
 	
 	//std::cin.get();
 	return 0;
