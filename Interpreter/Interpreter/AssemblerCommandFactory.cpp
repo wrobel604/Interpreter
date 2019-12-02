@@ -2,6 +2,7 @@
 #include"Command.hpp"
 #include"MathCommand.hpp"
 #include"LogicCommand.hpp"
+#include"ConsoleCommand.hpp"
 
 std::unique_ptr<AssembleCommandInterface> AssemblerCommandFactory::addCommand(std::string commandName)
 {
@@ -24,15 +25,19 @@ std::unique_ptr<AssembleCommandInterface> AssemblerCommandFactory::addCommand(st
 	if (commandName == "JMP") { return std::make_unique<command::JumpIfNotZero>(); }
 	if (commandName == "JMZ") { return std::make_unique<command::JumpIfZero>(); }
 	if (commandName == "IF") { return std::make_unique<command::IF>(); }
-	if (commandName == "OUT") { return std::make_unique<command::ConsoleWrite>(); }
-	if (commandName == "IN") { return std::make_unique<command::ConsoleRead>(); }
-	if (commandName == "END") { return std::make_unique<command::End>(); }
+	
 	//Logic
 	if (commandName == "EQL") { return std::make_unique<command::Equal>(); }
 	if (commandName == "LSS") { return std::make_unique<command::Less>(); }
 	if (commandName == "MOR") { return std::make_unique<command::More>(); }
 	if (commandName == "LSE") { return std::make_unique<command::LessOrEqual>(); }
 	if (commandName == "MRE") { return std::make_unique<command::MoreOrEqual>(); }
+	//Console
+	if (commandName == "OUT") { return std::make_unique<command::ConsoleWriteLetter>(); }
+	if (commandName == "MOT") { return std::make_unique<command::ConsoleWriteWords>(); }
+	if (commandName == "IN") { return std::make_unique<command::ConsoleRead>(); }
+	if (commandName == "END") { return std::make_unique<command::End>(); }
+	if (commandName == "CLK") { return std::make_unique<command::Click>(); }
 
 	return nullptr;
 }

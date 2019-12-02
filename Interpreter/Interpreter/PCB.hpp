@@ -10,10 +10,11 @@
 
 class PCB {
 	char memory[ArraySize];
-	char startIndex = 4;
+	int startIndex = 4;
 	
 	bool isOutRange(char adrr){ return adrr >= 0 && adrr < ArraySize;}
 public:
+	bool status = true;
 	std::shared_ptr<std::vector<std::string>> program;
 
 	PCB() { 
@@ -33,25 +34,23 @@ public:
 		startIndex = pcb.startIndex;
 		program = pcb.program;
 	}
-	static PCB loadProgramFromFile(std::string program_adrr) {
-		PCB result;
+	static std::shared_ptr<PCB> loadProgramFromFile(std::string program_adrr) {
+		std::shared_ptr<PCB> result = std::make_shared<PCB>();
 		std::string bufor;
 		std::ifstream in(program_adrr);
 		while (in >> bufor) {
-			result.program->push_back(bufor);
+			result->program->push_back(bufor);
 		}
 		in.close();
 		return result;
 	}
 	
-	void writeInMemory(char adrr, char value){
+	void writeInMemory(int adrr, char value){
 		adrr += startIndex;
-		if (isOutRange(adrr)) { throw std::exception{"Access memory error(write)"}; }
-		memory[adrr] = value;
+		this->memory[adrr] = value;
 	}
 	char readFromMemory(char adrr){
 		adrr += startIndex;
-		if (isOutRange(adrr)) { throw std::exception{ "Access memory error(read)" }; }
 		return memory[adrr];
 	}
 	char getAX() { return memory[0]; }

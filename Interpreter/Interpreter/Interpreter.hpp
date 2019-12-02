@@ -16,7 +16,8 @@ public:
 	Interpreter(std::shared_ptr<PCB>& pcb_ptr);
 	~Interpreter();
 
-	char step(char instructionPosition, bool debug = false);
+	char step(char instructionPosition);
+	char stepWithDebug(char instructionPosition);
 
 	std::shared_ptr<PCB>& getPCB();
 	const Flags& getFlags() const;

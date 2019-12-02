@@ -6,25 +6,33 @@ std::string pr = "SET AX 5\nSET [AX] 65\nOUT [AX]\nEND";
 int main(int argc, char** argv) {
 	bool debug = false;
 	std::shared_ptr<PCB> pcb;
-	//for (int i = 0; i < argc; ++i) { std::cout<<"|" << argv[i] << "|\t"; }std::cout << "\n";
-	if (argc > 1) {
-		pcb = std::make_unique<PCB>(PCB::loadProgramFromFile(argv[1]));
-		if (argc > 2) { debug = true; std::cout << "Tryb debugowania: " << debug << "\n";}
-		Interpreter interpreter{ pcb };
-		int steps = 0;
+	std::unique_ptr<Interpreter> interpreter;
+	if (argc>1) {
+		pcb = PCB::loadProgramFromFile(argv[1]);
+	}
+	else {
+		pcb = PCB::loadProgramFromFile("out.txt");
+	}
+	debug = argc > 2;
+	//debug = true;
+	if (pcb!=nullptr && pcb->program->size() > 0) {
+		interpreter = std::make_unique<Interpreter>(pcb);
+		int step = 0;
+		pcb->writeInMemory(10, 70);
 		try {
-			while (steps != interpreter.getPCB()->program->size()) {
-				steps = interpreter.step(steps, debug);
+			while (pcb->status) {
+				step = (debug)? interpreter->stepWithDebug(step):interpreter->step(step);
 			}
 		}
 		catch (std::exception & e) {
-			std::cout << "|\nProgram end with error: " << e.what() << "\n";
+			std::cout << e.what() << "\n";
 		}
+		
 	}
 	else {
-		std::cout << "No program to load\n";
+		std::cout << "No program loaded\n";
 	}
-	
+
 	//std::cin.get();
 	return 0;
 }

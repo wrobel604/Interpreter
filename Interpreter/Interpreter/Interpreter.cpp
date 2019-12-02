@@ -15,7 +15,7 @@ Interpreter::~Interpreter()
 {
 }
 
-char Interpreter::step(char instructionPosition, bool debug)
+char Interpreter::step(char instructionPosition)
 {
 	int result = 0;
 	std::string command = pcb->program->at(instructionPosition);
@@ -28,29 +28,33 @@ char Interpreter::step(char instructionPosition, bool debug)
 			throw std::exception{"Cannot load function\n"};
 		}
 	}
-	if (debug) {
-		std::cout << "Command: " << command << "\nResult: ";
-	}
 	result = functionList[command]->doCommand(pcb, flags, instructionPosition + 1);
-	if (debug) {
-		std::cout << "\nArgument(s): ";
-		for (int i = instructionPosition + 1; i < result; ++i) {
-			std::cout<< pcb->program->at(i) <<" ";
-		}
-		std::cout << "\nRegisters:\n\tAX = " << static_cast<int>(pcb->getAX()) << "\n";
-		std::cout<<"\tBX = " << static_cast<int>(pcb->getBX()) << "\n";
-		std::cout<<"\tCX = " << static_cast<int>(pcb->getCX()) << "\n";
-		std::cout<<"\tDX = " << static_cast<int>(pcb->getDX()) << "\n";
-		std::cout << "Flags:\n\tLF = " << flags.getFlag(LF) << "\n";
-		std::cout << "\tPF = " << flags.getFlag(PF) << "\n";
-		std::cout << "\tSF = " << flags.getFlag(SF) << "\n";
-		std::cout << "\tCF = " << flags.getFlag(CF) << "\n";
-		if (result < pcb->program->size()) {
-			std::cout << "Next step: " << pcb->program->at(result) << "\n";
-		}
-		else {
-			std::cout << "Program terminated\n";
-		}
+	return result;
+}
+
+char Interpreter::stepWithDebug(char instructionPosition)
+{
+	std::cout << "Command: " << pcb->program->at(instructionPosition) << "\nResult: ";
+	int result = step(instructionPosition);
+	std::cout << "\nArguments: ";
+	for (int i = instructionPosition + 1; i < result; ++i) {
+		std::cout << pcb->program->at(i);
+	}
+	std::cout << "\nRegisters:\n\tAX = " << static_cast<int>(pcb->getAX()) << "\n\t";
+	std::cout << "BX = " << static_cast<int>(pcb->getBX()) << "\n\t";
+	std::cout << "CX = " << static_cast<int>(pcb->getCX()) << "\n\t";
+	std::cout << "DX = " << static_cast<int>(pcb->getDX()) << "\n";
+	std::cout << "Flags:\n\tPF = " << flags.getFlag(PF) << "\n\t";
+	std::cout << "LF = " << flags.getFlag(LF) << "\n\t";
+	std::cout << "SF = " << flags.getFlag(SF) << "\n\t";
+	std::cout << "CF = " << flags.getFlag(CF) << "\n";
+	std::cout << "Memory: ";
+	pcb->printMemory();
+	if (result < pcb->program->size()) {
+		std::cout << "Next command: " << pcb->program->at(result) << "\n";
+	}
+	else {
+		std::cout << "No next command\n";
 	}
 	return result;
 }

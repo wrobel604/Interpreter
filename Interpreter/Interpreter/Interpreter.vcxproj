@@ -147,6 +147,7 @@
     <ClInclude Include="AssemblerCommandInterface.hpp" />
     <ClInclude Include="AssemblerTranslator.hpp" />
     <ClInclude Include="Command.hpp" />
+    <ClInclude Include="ConsoleCommand.hpp" />
     <ClInclude Include="Conversion.hpp" />
     <ClInclude Include="Flags.hpp" />
     <ClInclude Include="Interpreter.hpp" />

@@ -13,7 +13,10 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Header Files\Command">
+    <Filter Include="Header Files\CommandScript">
+      <UniqueIdentifier>{6b8ecc8f-c0d7-40a9-bf7f-072c48581bcf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\CommandScript\Command">
       <UniqueIdentifier>{18bcee3e-3031-4158-8ed0-9ba53b6463fe}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -22,9 +25,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="AssemblerCommandInterface.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="AssemblerTranslator.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Conversion.hpp">
@@ -40,13 +40,19 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Command.hpp">
-      <Filter>Header Files\Command</Filter>
+      <Filter>Header Files\CommandScript\Command</Filter>
     </ClInclude>
     <ClInclude Include="LogicCommand.hpp">
-      <Filter>Header Files\Command</Filter>
+      <Filter>Header Files\CommandScript\Command</Filter>
     </ClInclude>
     <ClInclude Include="MathCommand.hpp">
-      <Filter>Header Files\Command</Filter>
+      <Filter>Header Files\CommandScript\Command</Filter>
+    </ClInclude>
+    <ClInclude Include="AssemblerTranslator.hpp">
+      <Filter>Header Files\CommandScript</Filter>
+    </ClInclude>
+    <ClInclude Include="ConsoleCommand.hpp">
+      <Filter>Header Files\CommandScript\Command</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
