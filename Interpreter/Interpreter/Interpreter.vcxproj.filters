@@ -19,6 +19,9 @@
     <Filter Include="Header Files\CommandScript\Command">
       <UniqueIdentifier>{18bcee3e-3031-4158-8ed0-9ba53b6463fe}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ArgumentType">
+      <UniqueIdentifier>{332223ba-df43-4734-8175-c15ef30b5d5f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AssemblerCommandFactory.hpp">
@@ -53,6 +56,9 @@
     </ClInclude>
     <ClInclude Include="ConsoleCommand.hpp">
       <Filter>Header Files\CommandScript\Command</Filter>
+    </ClInclude>
+    <ClInclude Include="ArgumentInterface.hpp">
+      <Filter>ArgumentType</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

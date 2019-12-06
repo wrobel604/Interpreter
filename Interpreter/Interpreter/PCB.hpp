@@ -21,28 +21,19 @@ public:
 		for (int i = 0; i < ArraySize; ++i) { memory[i] = 0; } 
 		program = std::make_shared<std::vector<std::string>>(); 
 	}
-	PCB(std::string code) : PCB() {
-		std::regex regex("([A-Za-z]+[0-9]{0,1})|(-{0,1}[1-9]*[0-9]+)");
-		std::smatch match;
-		while (std::regex_search(code, match, regex)) {
-			if (match[1] != "") { program->push_back(match[1]); }
-			if (match[2] != "") { program->push_back(match[2]); }
-			code = match.suffix();
+	PCB(std::string program_adrr) : PCB() {
+		std::string bufor;
+		std::ifstream in(program_adrr);
+		std::cout << program_adrr << "\n";
+		while (in >> bufor) {
+			for (char& c : bufor) { c = std::toupper(c); }
+			this->program->push_back(bufor);
 		}
+		in.close();
 	}
 	PCB(const PCB& pcb) :PCB(){
 		startIndex = pcb.startIndex;
 		program = pcb.program;
-	}
-	static std::shared_ptr<PCB> loadProgramFromFile(std::string program_adrr) {
-		std::shared_ptr<PCB> result = std::make_shared<PCB>();
-		std::string bufor;
-		std::ifstream in(program_adrr);
-		while (in >> bufor) {
-			result->program->push_back(bufor);
-		}
-		in.close();
-		return result;
 	}
 	
 	void writeInMemory(int adrr, char value){

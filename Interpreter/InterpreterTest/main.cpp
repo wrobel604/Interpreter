@@ -1,18 +1,18 @@
 #include<iostream>
 #include<Interpreter.hpp>
 
-std::string pr = "SET AX 5\nSET [AX] 65\nOUT [AX]\nEND";
 
 int main(int argc, char** argv) {
 	bool debug = false;
 	std::shared_ptr<PCB> pcb;
 	std::unique_ptr<Interpreter> interpreter;
 	if (argc>1) {
-		pcb = PCB::loadProgramFromFile(argv[1]);
+		pcb = std::make_shared<PCB>(argv[1]);
 	}
 	else {
-		pcb = PCB::loadProgramFromFile("out.txt");
+		pcb = std::make_shared<PCB>("out.txt");
 	}
+	for (std::string s : *pcb->program) { std::cout << s << " "; }std::cout << "\n";
 	debug = argc > 2;
 	//debug = true;
 	if (pcb!=nullptr && pcb->program->size() > 0) {

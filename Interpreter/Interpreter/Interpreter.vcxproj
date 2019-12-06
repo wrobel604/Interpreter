@@ -143,6 +143,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="ArgumentInterface.hpp" />
     <ClInclude Include="AssemblerCommandFactory.hpp" />
     <ClInclude Include="AssemblerCommandInterface.hpp" />
     <ClInclude Include="AssemblerTranslator.hpp" />
