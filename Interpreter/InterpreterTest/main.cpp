@@ -8,10 +8,12 @@ int main(int argc, char** argv) {
 	std::shared_ptr<PCB> pcb;
 	std::unique_ptr<Interpreter> interpreter;
 	if (argc>1) {
-		pcb = PCB::loadProgramFromFile(argv[1]);
+		//pcb = PCB::loadProgramFromFile(argv[1]);
+		pcb = std::make_shared<PCB>(argv[1]);
 	}
 	else {
-		pcb = PCB::loadProgramFromFile("out.txt");
+		//pcb = PCB::loadProgramFromFile("out.txt");
+		pcb = std::make_shared<PCB>("out.txt");
 	}
 	debug = argc > 2;
 	//debug = true;
