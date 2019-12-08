@@ -1,5 +1,5 @@
 #include<iostream>
-#include<Interpreter.hpp>
+#include"../Interpreter/Interpreter.hpp"
 
 std::string pr = "SET AX 5\nSET [AX] 65\nOUT [AX]\nEND";
 
@@ -15,6 +15,10 @@ int main(int argc, char** argv) {
 		//pcb = PCB::loadProgramFromFile("out.txt");
 		pcb = std::make_shared<PCB>("out.txt");
 	}
+	for (const std::string& s : *pcb->program) {
+		std::cout << s << " ";
+	}
+	std::cout << "\n";
 	debug = argc > 2;
 	//debug = true;
 	if (pcb!=nullptr && pcb->program->size() > 0) {

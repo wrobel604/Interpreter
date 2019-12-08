@@ -54,6 +54,12 @@
     <ClInclude Include="ConsoleCommand.hpp">
       <Filter>Header Files\CommandScript\Command</Filter>
     </ClInclude>
+    <ClInclude Include="FileCommand.hpp">
+      <Filter>Header Files\CommandScript\Command</Filter>
+    </ClInclude>
+    <ClInclude Include="ArgumentType.hpp">
+      <Filter>Header Files\CommandScript</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AssemblerCommandFactory.cpp">

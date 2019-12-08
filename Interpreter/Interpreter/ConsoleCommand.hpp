@@ -7,9 +7,9 @@ namespace command {
 	public:
 		virtual char doCommand(std::shared_ptr<PCB>& pcb, Flags& flags, char startArgs = 0) {
 			char argv = 1;
-			std::vector<char> args = this->loadArgs(argv, startArgs, pcb, flags);
+			std::vector<ArgumentType> args = this->loadArgs(argv, startArgs, pcb, flags);
 			if (args.size() != argv) { throw std::exception("Failed loading arguments"); }
-			std::cout << args[0];
+			std::cout << this->getValue(args[0], pcb);
 			return startArgs + argv;
 		}
 	};
@@ -17,13 +17,14 @@ namespace command {
 	public:
 		virtual char doCommand(std::shared_ptr<PCB>& pcb, Flags& flags, char startArgs = 0) {
 			char argv = 1;
-			std::vector<char> args = this->loadArgs(argv, startArgs, pcb, flags);
+			std::vector<ArgumentType> args = this->loadArgs(argv, startArgs, pcb, flags);
 			if (args.size() != argv) { throw std::exception("Failed loading arguments"); }
 			ConsoleWriteLetter write;
-			for (int i = 0; i < args[0]; ++i) {
+			int size = this->getValue(args[0], pcb);
+			for (int i = 0; i < size; ++i) {
 				write.doCommand(pcb, flags, startArgs + argv + i);
 			}
-			return startArgs + argv + args[0];
+			return startArgs + argv + size;
 		}
 	};
 	class ConsoleRead : public AssemblerTranslator {

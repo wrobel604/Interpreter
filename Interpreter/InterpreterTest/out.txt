@@ -10,5 +10,9 @@ OUT [1]
 OUT [2]
 OUT [3]
 OUT [4]
+OUT {7}
+OUT {2}
+OUT {3}
+OUT {4}
 CLK
 END

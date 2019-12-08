@@ -6,9 +6,9 @@ namespace command {
 	public:
 		virtual char doCommand(std::shared_ptr<PCB>& pcb, Flags& flags, char startArgs = 0) {
 			char argv = 2;
-			std::vector<char> args = this->loadArgs(argv, startArgs, pcb, flags);
+			std::vector<ArgumentType> args = this->loadArgs(argv, startArgs, pcb, flags);
 			if (args.size() != argv) { throw std::exception("Failed loading arguments"); }
-			int result = args[0] + args[1];
+			int result = this->getValue(args[0], pcb) + this->getValue(args[1], pcb);
 			pcb->setDX(result);
 			Flags::setFlags(flags, result);
 			return startArgs + argv;
@@ -18,9 +18,9 @@ namespace command {
 	public:
 		virtual char doCommand(std::shared_ptr<PCB>& pcb, Flags& flags, char startArgs = 0) {
 			char argv = 2;
-			std::vector<char> args = this->loadArgs(argv, startArgs, pcb, flags);
+			std::vector<ArgumentType> args = this->loadArgs(argv, startArgs, pcb, flags);
 			if (args.size() != argv) { throw std::exception("Failed loading arguments"); }
-			int result = args[0] - args[1];
+			int result = this->getValue(args[0], pcb) - this->getValue(args[1], pcb);
 			pcb->setDX(result);
 			Flags::setFlags(flags, result);
 			return startArgs + argv;
@@ -30,9 +30,9 @@ namespace command {
 	public:
 		virtual char doCommand(std::shared_ptr<PCB>& pcb, Flags& flags, char startArgs = 0) {
 			char argv = 2;
-			std::vector<char> args = this->loadArgs(argv, startArgs, pcb, flags);
+			std::vector<ArgumentType> args = this->loadArgs(argv, startArgs, pcb, flags);
 			if (args.size() != argv) { throw std::exception("Failed loading arguments"); }
-			int result = args[0] * args[1];
+			int result = this->getValue(args[0], pcb) * this->getValue(args[1], pcb);
 			pcb->setDX(result);
 			Flags::setFlags(flags, result);
 			return startArgs + argv;
@@ -42,10 +42,10 @@ namespace command {
 	public:
 		virtual char doCommand(std::shared_ptr<PCB>& pcb, Flags& flags, char startArgs = 0) {
 			char argv = 2;
-			std::vector<char> args = this->loadArgs(argv, startArgs, pcb, flags);
+			std::vector<ArgumentType> args = this->loadArgs(argv, startArgs, pcb, flags);
 			if (args.size() != argv) { throw std::exception("Failed loading arguments"); }
-			if (args[1] != 0) {
-				int result = args[0] / args[1];
+			if (this->getValue(args[1], pcb) != 0) {
+				int result = this->getValue(args[0], pcb) / this->getValue(args[1], pcb);
 				pcb->setDX(result);
 				Flags::setFlags(flags, result);
 				return startArgs;
@@ -59,10 +59,10 @@ namespace command {
 	public:
 		virtual char doCommand(std::shared_ptr<PCB>& pcb, Flags& flags, char startArgs = 0) {
 			char argv = 2;
-			std::vector<char> args = this->loadArgs(argv, startArgs, pcb, flags);
+			std::vector<ArgumentType> args = this->loadArgs(argv, startArgs, pcb, flags);
 			if (args.size() != argv) { throw std::exception("Failed loading arguments"); }
-			if (args[1] != 0) {
-				int result = args[0] % args[1];
+			if (this->getValue(args[1], pcb) != 0) {
+				int result = this->getValue(args[0], pcb) % this->getValue(args[1], pcb);
 				pcb->setDX(result);
 				Flags::setFlags(flags, result);
 				return startArgs;
@@ -75,24 +75,11 @@ namespace command {
 	public:
 		virtual char doCommand(std::shared_ptr<PCB>& pcb, Flags& flags, char startArgs = 0) {
 			char argv = 1;
-			std::vector<char> args = this->loadArgs(argv, startArgs, pcb, flags);
+			std::vector<ArgumentType> args = this->loadArgs(argv, startArgs, pcb, flags);
 			if (args.size() != argv) { throw std::exception("Failed loading arguments"); }
 			
-			int result = ++args[0];
-			//pcb->setDX(result);
-			std::string toWriteAdress = pcb->program->at(startArgs);
-			switch (toWriteAdress[0])
-			{
-			case '[': pcb->writeInMemory(Conversion::string_to_charNumber(toWriteAdress.substr(1, toWriteAdress.size() - 2)), result); break;
-			case 'A': pcb->setAX(result); break;
-			case 'B': pcb->setBX(result); break;
-			case 'C': pcb->setCX(result); break;
-			case 'D': pcb->setDX(result); break;
-			default:
-				pcb->setDX(result);
-				break;
-			}
-			Flags::setFlags(flags, result);
+			this->setValue(args[0], this->getValue(args[0], pcb)+1, pcb);
+			Flags::setFlags(flags, this->getValue(args[0], pcb));
 
 			return startArgs + argv;
 		}
@@ -101,23 +88,11 @@ namespace command {
 	public:
 		virtual char doCommand(std::shared_ptr<PCB>& pcb, Flags& flags, char startArgs = 0) {
 			char argv = 1;
-			std::vector<char> args = this->loadArgs(argv, startArgs, pcb, flags);
+			std::vector<ArgumentType> args = this->loadArgs(argv, startArgs, pcb, flags);
 			if (args.size() != argv) { throw std::exception("Failed loading arguments"); }
-			int result = --args[0];
-			//pcb->setDX(result);
-			std::string toWriteAdress = pcb->program->at(startArgs);
-			switch (toWriteAdress[0])
-			{
-			case '[': pcb->writeInMemory(Conversion::string_to_charNumber(toWriteAdress.substr(1, toWriteAdress.size() - 2)), result); break;
-			case 'A': pcb->setAX(result); break;
-			case 'B': pcb->setBX(result); break;
-			case 'C': pcb->setCX(result); break;
-			case 'D': pcb->setDX(result); break;
-			default:
-				pcb->setDX(result);
-				break;
-			}
-			Flags::setFlags(flags, result);
+
+			this->setValue(args[0], this->getValue(args[0], pcb) - 1, pcb);
+			Flags::setFlags(flags, this->getValue(args[0], pcb));
 
 			return startArgs + argv;
 		}
@@ -126,9 +101,9 @@ namespace command {
 	public:
 		virtual char doCommand(std::shared_ptr<PCB>& pcb, Flags& flags, char startArgs = 0) {
 			char argv = 2;
-			std::vector<char> args = this->loadArgs(argv, startArgs, pcb, flags);
+			std::vector<ArgumentType> args = this->loadArgs(argv, startArgs, pcb, flags);
 			if (args.size() != argv) { throw std::exception("Failed loading arguments"); }
-			int result = args[0] & args[1];
+			int result = this->getValue(args[0], pcb) & this->getValue(args[1], pcb);
 			pcb->setDX(result);
 			Flags::setFlags(flags, result);
 			return startArgs + argv;
@@ -138,9 +113,9 @@ namespace command {
 	public:
 		virtual char doCommand(std::shared_ptr<PCB>& pcb, Flags& flags, char startArgs = 0) {
 			char argv = 2;
-			std::vector<char> args = this->loadArgs(argv, startArgs, pcb, flags);
+			std::vector<ArgumentType> args = this->loadArgs(argv, startArgs, pcb, flags);
 			if (args.size() != argv) { throw std::exception("Failed loading arguments"); }
-			int result = args[0] | args[1];
+			int result = this->getValue(args[0], pcb) | this->getValue(args[1], pcb);
 			pcb->setDX(result);
 			Flags::setFlags(flags, result);
 			return startArgs + argv;
@@ -150,9 +125,9 @@ namespace command {
 	public:
 		virtual char doCommand(std::shared_ptr<PCB>& pcb, Flags& flags, char startArgs = 0) {
 			char argv = 2;
-			std::vector<char> args = this->loadArgs(argv, startArgs, pcb, flags);
+			std::vector<ArgumentType> args = this->loadArgs(argv, startArgs, pcb, flags);
 			if (args.size() != argv) { throw std::exception("Failed loading arguments"); }
-			int result = args[0] ^ args[1];
+			int result = this->getValue(args[0], pcb) ^ this->getValue(args[1], pcb);
 			pcb->setDX(result);
 			Flags::setFlags(flags, result);
 			return startArgs + argv;
@@ -162,11 +137,10 @@ namespace command {
 	public:
 		virtual char doCommand(std::shared_ptr<PCB>& pcb, Flags& flags, char startArgs = 0) {
 			char argv = 1;
-			std::vector<char> args = this->loadArgs(argv, startArgs, pcb, flags);
+			std::vector<ArgumentType> args = this->loadArgs(argv, startArgs, pcb, flags);
 			if (args.size() != argv) { throw std::exception("Failed loading arguments"); }
-			int result = ~args[0];
-			pcb->setDX(result);
-			Flags::setFlags(flags, result);
+			pcb->setDX(~this->getValue(args[0], pcb));
+			Flags::setFlags(flags, pcb->getDX());
 			return startArgs + argv;
 		}
 	};
@@ -174,9 +148,9 @@ namespace command {
 	public:
 		virtual char doCommand(std::shared_ptr<PCB>& pcb, Flags& flags, char startArgs = 0) {
 			char argv = 2;
-			std::vector<char> args = this->loadArgs(argv, startArgs, pcb, flags);
+			std::vector<ArgumentType> args = this->loadArgs(argv, startArgs, pcb, flags);
 			if (args.size() != argv) { throw std::exception("Failed loading arguments"); }
-			int result = args[0] << args[1];
+			int result = this->getValue(args[0], pcb) << this->getValue(args[1], pcb);
 			pcb->setDX(result);
 			Flags::setFlags(flags, result);
 			return startArgs + argv;
@@ -186,9 +160,9 @@ namespace command {
 	public:
 		virtual char doCommand(std::shared_ptr<PCB>& pcb, Flags& flags, char startArgs = 0) {
 			char argv = 2;
-			std::vector<char> args = this->loadArgs(argv, startArgs, pcb, flags);
+			std::vector<ArgumentType> args = this->loadArgs(argv, startArgs, pcb, flags);
 			if (args.size() != argv) { throw std::exception("Failed loading arguments"); }
-			int result = args[0] >> args[1];
+			int result = this->getValue(args[0], pcb) >> this->getValue(args[1], pcb);
 			pcb->setDX(result);
 			Flags::setFlags(flags, result);
 			return startArgs + argv;

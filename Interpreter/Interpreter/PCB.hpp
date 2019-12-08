@@ -24,8 +24,10 @@ public:
 	PCB(std::string program_adrr) : PCB() {
 		std::string bufor;
 		std::ifstream in(program_adrr);
-		while (in >> bufor) {
-			this->program->push_back(bufor);
+		if (in.is_open()) {
+			while (in >> bufor) {
+				program->push_back(bufor);
+			}
 		}
 		in.close();
 	}
