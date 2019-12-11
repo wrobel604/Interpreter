@@ -14,7 +14,12 @@ class PCB {
 	
 	bool isOutRange(char adrr){ return adrr >= 0 && adrr < ArraySize;}
 public:
-	bool status = true;
+	enum class ProcessState : char {
+		active = 0, waiting = 1, ready = 2, terminated = 3
+	};
+
+	int PID;
+	ProcessState state = ProcessState::active;
 	std::shared_ptr<std::vector<std::string>> program;
 
 	PCB() { 

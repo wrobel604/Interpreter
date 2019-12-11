@@ -1,5 +1,5 @@
 #pragma once
-#include"AssemblerCommandInterface.hpp"
+#include"../AssemblerTranslator.hpp"
 
 namespace command {
 	class Equal : public AssemblerTranslator {

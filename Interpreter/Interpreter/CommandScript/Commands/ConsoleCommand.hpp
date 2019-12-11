@@ -1,5 +1,5 @@
 #pragma once
-#include"AssemblerTranslator.hpp"
+#include"../AssemblerTranslator.hpp"
 #include<iostream>
 
 namespace command {
@@ -27,11 +27,14 @@ namespace command {
 			return startArgs + argv + size;
 		}
 	};
+	union intTest { int a; char b[4]; };
 	class ConsoleRead : public AssemblerTranslator {
 	public:
 		virtual char doCommand(std::shared_ptr<PCB>& pcb, Flags& flags, char startArgs = 0) {
-			char value = 0;
+			int value = 0;
 			std::cin >> value; std::cin.get();
+			
+			
 			pcb->setBX(value);
 			return startArgs;
 		}

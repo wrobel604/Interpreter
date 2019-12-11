@@ -2,8 +2,8 @@
 #include<iostream>
 #include<exception>
 
-std::unique_ptr<AssemblerCommandFactory> Interpreter::commandFactory = std::make_unique<AssemblerCommandFactory>();
 std::map<std::string, std::unique_ptr<AssembleCommandInterface>> Interpreter::functionList = std::map<std::string, std::unique_ptr<AssembleCommandInterface>>{};
+std::unique_ptr<AssemblerCommandFactory> Interpreter::commandFactory = std::make_unique<AssemblerCommandFactory>();
 
 Interpreter::Interpreter(std::shared_ptr<PCB>& pcb_ptr)
 {
@@ -21,7 +21,7 @@ char Interpreter::step(char instructionPosition)
 	std::string command = pcb->program->at(instructionPosition);
 	if(functionList.find(command)==functionList.end()){
 		bool isAdded = false;
-		if (commandFactory != nullptr) {
+		if (Interpreter::commandFactory != nullptr) {
 			functionList[command] = commandFactory->addCommand(command); 
 		}
 		if (functionList[command] == nullptr) {

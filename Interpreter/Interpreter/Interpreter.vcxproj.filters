@@ -14,10 +14,10 @@
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
     <Filter Include="Header Files\CommandScript">
-      <UniqueIdentifier>{6b8ecc8f-c0d7-40a9-bf7f-072c48581bcf}</UniqueIdentifier>
+      <UniqueIdentifier>{e1a6730c-f98b-4c3c-a181-02ae2890cf2d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\CommandScript\Command">
-      <UniqueIdentifier>{18bcee3e-3031-4158-8ed0-9ba53b6463fe}</UniqueIdentifier>
+    <Filter Include="Header Files\CommandScript\Commands">
+      <UniqueIdentifier>{8e01baef-35f0-49fa-92ae-1fdbf82fc35d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -39,26 +39,29 @@
     <ClInclude Include="PCB.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Command.hpp">
-      <Filter>Header Files\CommandScript\Command</Filter>
-    </ClInclude>
-    <ClInclude Include="LogicCommand.hpp">
-      <Filter>Header Files\CommandScript\Command</Filter>
-    </ClInclude>
-    <ClInclude Include="MathCommand.hpp">
-      <Filter>Header Files\CommandScript\Command</Filter>
-    </ClInclude>
-    <ClInclude Include="AssemblerTranslator.hpp">
+    <ClInclude Include="CommandScript\ArgumentType.hpp">
       <Filter>Header Files\CommandScript</Filter>
     </ClInclude>
-    <ClInclude Include="ConsoleCommand.hpp">
-      <Filter>Header Files\CommandScript\Command</Filter>
-    </ClInclude>
-    <ClInclude Include="FileCommand.hpp">
-      <Filter>Header Files\CommandScript\Command</Filter>
-    </ClInclude>
-    <ClInclude Include="ArgumentType.hpp">
+    <ClInclude Include="CommandScript\AssemblerTranslator.hpp">
       <Filter>Header Files\CommandScript</Filter>
+    </ClInclude>
+    <ClInclude Include="CommandScript\Commands\MathCommand.hpp">
+      <Filter>Header Files\CommandScript\Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="CommandScript\Commands\ProcessCommand.hpp">
+      <Filter>Header Files\CommandScript\Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="CommandScript\Commands\LogicCommand.hpp">
+      <Filter>Header Files\CommandScript\Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="CommandScript\Commands\FileCommand.hpp">
+      <Filter>Header Files\CommandScript\Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="CommandScript\Commands\ConsoleCommand.hpp">
+      <Filter>Header Files\CommandScript\Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="CommandScript\Commands\Command.hpp">
+      <Filter>Header Files\CommandScript\Commands</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

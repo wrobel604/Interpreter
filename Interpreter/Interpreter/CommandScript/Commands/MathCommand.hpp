@@ -1,5 +1,5 @@
 #pragma once
-#include"AssemblerTranslator.hpp"
+#include"../AssemblerTranslator.hpp"
 
 namespace command {
 	class Addition : public AssemblerTranslator {

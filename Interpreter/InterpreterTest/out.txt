@@ -1,18 +1,5 @@
-MOT 6 'H' 'E' 'L' 'L' 'O' 10
-SET AX 100
-SET [0] 'W'
-SET [1] 'o'
-SET [2] 'r'
-SET [3] 'l'
-SET [4] 'd'
-OUT [0]
-OUT [1]
-OUT [2]
-OUT [3]
-OUT [4]
-OUT {7}
-OUT {2}
-OUT {3}
-OUT {4}
+OUT '>'
+IN
+OUT BX
 CLK
 END

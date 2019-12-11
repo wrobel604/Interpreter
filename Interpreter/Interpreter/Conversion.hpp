@@ -2,49 +2,48 @@
 #include<string>
 #include<regex>
 
+namespace {
+	int HexToDec(std::string& hex) {
+		int size = hex.size();
+		int result = 0, bufor = 0;
+		for (const char& i : hex) {
+			result *= 16;
+			if (i >= '0' && i <= '9') { bufor = i - '0'; }
+			else
+				if (i >= 'A' && i <= 'F') { bufor = i - 'A' + 10; }
+				else
+					if (i >= 'a' && i <= 'f') { bufor = i - 'a' + 10; }
+			result += bufor;
+		}
+		return result;
+	}
+	int BinToDec(std::string& bin) {
+		int size = bin.size();
+		int result = 0, two = 1 << (size - 1);
+		for (int i = 0; i < size; ++i) {
+			if (bin[i] == '1') {
+				result += two;
+			}
+			two >>= 1;
+		}
+		return result;
+	}
+
+	int OctToDec(std::string& hex) {
+		int size = hex.size();
+		int result = 0, bufor = 0;
+		for (const char& i : hex) {
+			result *= 8;
+			if (i >= '0' && i <= '7') { bufor = i - '0'; }
+			result += bufor;
+		}
+		return result;
+	}
+}
+
 class Conversion {
 public:
-	enum class ValueType : char{
-		Register,
-		Flag,
-		MemoryAdress,
-		Number,
-		Other
-	};
 	static char string_to_charNumber(std::string numbers) {
 		return std::atoi(numbers.c_str());
-	}
-	static char getMemoryAdress(std::string addr) {
-		std::regex regex{ "^\\[([0-9]+)\\]$" };
-		std::smatch match;
-		if (std::regex_search(addr, match, regex)) {
-			return Conversion::string_to_charNumber(match[1]);
-		}
-		return 0;
-	}
-	static ValueType getCommandType(std::string arg, char& outValue) {
-		std::regex regex{ "^\\[([0-9]+)\\]$" };
-		std::smatch match;
-		if (std::regex_search(arg, match, regex)) {
-			outValue = string_to_charNumber(match[1]);
-			return ValueType::MemoryAdress;
-		}
-		regex = std::regex{ "^([0-9]+)$" };
-		if (std::regex_search(arg, match, regex)) {
-			outValue = string_to_charNumber(match[1]);
-			return ValueType::Number;
-		}
-		regex = std::regex{ "^([A-Z]X)$" };
-		if (std::regex_search(arg, match, regex)) {
-			arg = match[1];
-			outValue = arg[0];
-			return ValueType::Register;
-		}
-		regex = std::regex{ "^([A-Z]F)$" };
-		if (std::regex_search(arg, match, regex)) {
-			arg = match[1];
-			outValue = arg[0];
-			return ValueType::Flag;
-		}
 	}
 };

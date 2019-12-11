@@ -143,18 +143,19 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="ArgumentType.hpp" />
     <ClInclude Include="AssemblerCommandFactory.hpp" />
     <ClInclude Include="AssemblerCommandInterface.hpp" />
-    <ClInclude Include="AssemblerTranslator.hpp" />
-    <ClInclude Include="Command.hpp" />
-    <ClInclude Include="ConsoleCommand.hpp" />
+    <ClInclude Include="CommandScript\ArgumentType.hpp" />
+    <ClInclude Include="CommandScript\AssemblerTranslator.hpp" />
+    <ClInclude Include="CommandScript\Commands\Command.hpp" />
+    <ClInclude Include="CommandScript\Commands\ConsoleCommand.hpp" />
+    <ClInclude Include="CommandScript\Commands\FileCommand.hpp" />
+    <ClInclude Include="CommandScript\Commands\LogicCommand.hpp" />
+    <ClInclude Include="CommandScript\Commands\MathCommand.hpp" />
+    <ClInclude Include="CommandScript\Commands\ProcessCommand.hpp" />
     <ClInclude Include="Conversion.hpp" />
-    <ClInclude Include="FileCommand.hpp" />
     <ClInclude Include="Flags.hpp" />
     <ClInclude Include="Interpreter.hpp" />
-    <ClInclude Include="LogicCommand.hpp" />
-    <ClInclude Include="MathCommand.hpp" />
     <ClInclude Include="PCB.hpp" />
   </ItemGroup>
   <ItemGroup>

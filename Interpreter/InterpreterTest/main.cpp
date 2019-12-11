@@ -26,8 +26,9 @@ int main(int argc, char** argv) {
 		int step = 0;
 		pcb->writeInMemory(10, 70);
 		try {
-			while (pcb->status) {
+			while (pcb->state==PCB::ProcessState::active) {
 				step = (debug)? interpreter->stepWithDebug(step):interpreter->step(step);
+				//std::cin.get();
 			}
 		}
 		catch (std::exception & e) {

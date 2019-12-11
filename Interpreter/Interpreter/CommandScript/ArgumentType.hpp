@@ -3,7 +3,8 @@
 class ArgumentType {
 public:
 	enum class Type : char {
-		Value, // Flags == Value
+		Value, 
+		Flags,
 		Ptr,
 		CodePtr,
 		AX, BX, CX, DX,

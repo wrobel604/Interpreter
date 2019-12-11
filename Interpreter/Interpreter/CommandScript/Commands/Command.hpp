@@ -1,5 +1,5 @@
 #pragma once
-#include"AssemblerTranslator.hpp"
+#include"../AssemblerTranslator.hpp"
 namespace command {
 	class SetValue : public AssemblerTranslator {
 public:
@@ -44,7 +44,7 @@ public:
 	class End : public AssemblerTranslator {
 	public:
 		virtual char doCommand(std::shared_ptr<PCB>& pcb, Flags& flags, char startArgs = 0) {
-			pcb->status = false;
+			pcb->state = PCB::ProcessState::terminated;
 			return startArgs;
 		}
 	};

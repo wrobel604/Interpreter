@@ -39,7 +39,7 @@ public:
 
 	static void setFlags(Flags& flags, int valueResult) {
 		flags.setFlag(PF, valueResult & 1);
-		flags.setFlag(LF, valueResult);
+		flags.setFlag(LF, valueResult != 0);
 		flags.setFlag(SF, (valueResult<0));
 		flags.setFlag(CF, (valueResult>255));
 	}

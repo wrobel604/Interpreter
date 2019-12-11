@@ -1,8 +1,8 @@
 #include "AssemblerCommandFactory.hpp"
-#include"Command.hpp"
-#include"MathCommand.hpp"
-#include"LogicCommand.hpp"
-#include"ConsoleCommand.hpp"
+#include"CommandScript/Commands/Command.hpp"
+#include"CommandScript/Commands/MathCommand.hpp"
+#include"CommandScript/Commands/LogicCommand.hpp"
+#include"CommandScript/Commands/ConsoleCommand.hpp"
 
 std::unique_ptr<AssembleCommandInterface> AssemblerCommandFactory::addCommand(std::string commandName)
 {
@@ -25,6 +25,7 @@ std::unique_ptr<AssembleCommandInterface> AssemblerCommandFactory::addCommand(st
 	if (commandName == "JMP") { return std::make_unique<command::JumpIfNotZero>(); }
 	if (commandName == "JMZ") { return std::make_unique<command::JumpIfZero>(); }
 	if (commandName == "IF") { return std::make_unique<command::IF>(); }
+
 	
 	//Logic
 	if (commandName == "EQL") { return std::make_unique<command::Equal>(); }
