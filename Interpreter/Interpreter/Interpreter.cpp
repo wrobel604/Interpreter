@@ -5,6 +5,12 @@
 std::unique_ptr<AssemblerCommandFactory> Interpreter::commandFactory = std::make_unique<AssemblerCommandFactory>();
 std::map<std::string, std::unique_ptr<AssembleCommandInterface>> Interpreter::functionList = std::map<std::string, std::unique_ptr<AssembleCommandInterface>>{};
 
+Interpreter::Interpreter()
+{
+	pcb = nullptr;
+	Flags::setFlags(flags, 0);
+}
+
 Interpreter::Interpreter(std::shared_ptr<PCB>& pcb_ptr)
 {
 	this->pcb = pcb_ptr;
@@ -17,6 +23,7 @@ Interpreter::~Interpreter()
 
 char Interpreter::step(char instructionPosition)
 {
+	if (pcb == nullptr) { return -1; }
 	int result = 0;
 	std::string command = pcb->program->at(instructionPosition);
 	if(functionList.find(command)==functionList.end()){
