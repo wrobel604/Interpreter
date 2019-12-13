@@ -23,13 +23,16 @@ void Scheduler::era()
 	if (interpreter->pcb->state != processState::terminated) {
 		moveProcessToExpired(eraCouter);
 	}
+	if (activeRunProcess->empty()) {
+		std::swap(activeRunProcess, expiredRunProcess);
+	}
 }
 
 void Scheduler::moveProcessToExpired(int programCounter)
 {
 	//ustalenie nowego priorytetu dynamicznego dla procesu
 	//int newPriority = 120 
-	if (expiredRunProcess->size() == 0) {
+	if (expiredRunProcess->empty()) {
 		expiredRunProcess->push_back(interpreter->pcb);
 	}
 	else {
