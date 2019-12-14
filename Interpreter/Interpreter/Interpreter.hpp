@@ -6,11 +6,11 @@
 class Interpreter
 {
 protected:
-	std::shared_ptr<PCB> pcb;
 	Flags flags;
 	
 	static std::map<std::string, std::unique_ptr<AssembleCommandInterface>> functionList;
 public:
+	std::shared_ptr<PCB> pcb;
 	static std::unique_ptr<AssemblerCommandFactory> commandFactory;
 
 	Interpreter(std::shared_ptr<PCB>& pcb_ptr);
