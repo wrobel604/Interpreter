@@ -31,11 +31,20 @@ namespace command {
 	class ConsoleRead : public AssemblerTranslator {
 	public:
 		virtual char doCommand(std::shared_ptr<PCB>& pcb, Flags& flags, char startArgs = 0) {
+			std::string text;
 			int value = 0;
-			std::cin >> value; std::cin.get();
+			std::cin >> text; std::cin.ignore();
 			
-			
-			pcb->setBX(value);
+			pcb->setBX(NumberConversion::stringToCharNumber(text));
+			return startArgs;
+		}
+	};
+	class ConsoleReadChar : public AssemblerTranslator {
+	public:
+		virtual char doCommand(std::shared_ptr<PCB>& pcb, Flags& flags, char startArgs = 0) {
+			char sign;
+			std::cin >> sign; std::cin.ignore();
+			pcb->setBX(sign);
 			return startArgs;
 		}
 	};

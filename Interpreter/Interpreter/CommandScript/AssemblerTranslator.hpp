@@ -21,19 +21,19 @@ public:
 				case 'C':result.push_back(ArgumentType{ ArgumentType::Type::Ptr, pcb->readFromMemory(pcb->getAX()) }); break;
 				case 'D':result.push_back(ArgumentType{ ArgumentType::Type::Ptr, pcb->readFromMemory(pcb->getAX()) }); break;
 				default:
-					result.push_back(ArgumentType{ ArgumentType::Type::Ptr, Conversion::string_to_charNumber(buf.substr(1, buf.size() - 2)) });
+					result.push_back(ArgumentType{ ArgumentType::Type::Ptr, NumberConversion::stringToCharNumber(buf.substr(1, buf.size() - 2)) });
 					break;
 				}break;
 			case '{': 
 				switch (buf[1]) {
-				case 'A': result.push_back(ArgumentType{ ArgumentType::Type::Value, Conversion::string_to_charNumber(pcb->program->at(pcb->getAX())) }); break;
-				case 'B': result.push_back(ArgumentType{ ArgumentType::Type::Value, Conversion::string_to_charNumber(pcb->program->at(pcb->getBX())) }); break;
-				case 'C': result.push_back(ArgumentType{ ArgumentType::Type::Value, Conversion::string_to_charNumber(pcb->program->at(pcb->getCX())) }); break;
-				case 'D': result.push_back(ArgumentType{ ArgumentType::Type::Value, Conversion::string_to_charNumber(pcb->program->at(pcb->getDX())) }); break;
+				case 'A': result.push_back(ArgumentType{ ArgumentType::Type::Value, NumberConversion::stringToCharNumber(pcb->program->at(pcb->getAX())) }); break;
+				case 'B': result.push_back(ArgumentType{ ArgumentType::Type::Value, NumberConversion::stringToCharNumber(pcb->program->at(pcb->getBX())) }); break;
+				case 'C': result.push_back(ArgumentType{ ArgumentType::Type::Value, NumberConversion::stringToCharNumber(pcb->program->at(pcb->getCX())) }); break;
+				case 'D': result.push_back(ArgumentType{ ArgumentType::Type::Value, NumberConversion::stringToCharNumber(pcb->program->at(pcb->getDX())) }); break;
 				default:
-					std::string val = pcb->program->at(Conversion::string_to_charNumber(buf.substr(1, buf.size() - 2)));
+					std::string val = pcb->program->at(NumberConversion::stringToCharNumber(buf.substr(1, buf.size() - 2)));
 					if(val[0]=='\''){ result.push_back(ArgumentType{ ArgumentType::Type::Value, val[1] }); }else
-					result.push_back(ArgumentType{ ArgumentType::Type::Value, Conversion::string_to_charNumber(val) });
+					result.push_back(ArgumentType{ ArgumentType::Type::Value, NumberConversion::stringToCharNumber(val) });
 				}
 				break;
 			case 'A': result.push_back(ArgumentType{ ArgumentType::Type::AX, pcb->getAX() }); break;
@@ -52,7 +52,7 @@ public:
 			case 'L': result.push_back(ArgumentType{ ArgumentType::Type::Flags, flags[LF] }); break;
 			case 'S': result.push_back(ArgumentType{ ArgumentType::Type::Flags, flags[SF] }); break;
 			default:
-				result.push_back(ArgumentType{ ArgumentType::Type::Value, Conversion::string_to_charNumber(buf) });
+				result.push_back(ArgumentType{ ArgumentType::Type::Value, (char)atoi(buf.c_str()) });
 				break;
 			}
 		}

@@ -1,5 +1,10 @@
 OUT '>'
 IN
 OUT BX
-CLK
+OUT 10
+EQL 0 BX
+JMZ 0
+OUT '>'
+INS
+OUT BX
 END

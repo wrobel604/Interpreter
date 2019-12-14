@@ -5,6 +5,11 @@
 std::map<std::string, std::unique_ptr<AssembleCommandInterface>> Interpreter::functionList = std::map<std::string, std::unique_ptr<AssembleCommandInterface>>{};
 std::unique_ptr<AssemblerCommandFactory> Interpreter::commandFactory = std::make_unique<AssemblerCommandFactory>();
 
+Interpreter::Interpreter()
+{
+	Flags::setFlags(flags, 0);
+}
+
 Interpreter::Interpreter(std::shared_ptr<PCB>& pcb_ptr)
 {
 	this->pcb = pcb_ptr;

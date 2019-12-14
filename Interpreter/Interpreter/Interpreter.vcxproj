@@ -160,6 +160,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AssemblerCommandFactory.cpp" />
+    <ClCompile Include="Conversion.cpp" />
     <ClCompile Include="Interpreter.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

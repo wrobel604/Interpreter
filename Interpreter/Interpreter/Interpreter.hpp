@@ -13,6 +13,7 @@ public:
 	std::shared_ptr<PCB> pcb;
 	static std::unique_ptr<AssemblerCommandFactory> commandFactory;
 
+	Interpreter();
 	Interpreter(std::shared_ptr<PCB>& pcb_ptr);
 	~Interpreter();
 
