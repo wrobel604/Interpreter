@@ -16,7 +16,7 @@ ProcessManager::ProcessManager()
 void ProcessManager::createInitProcess()
 {
 	processCounter++;
-	PCB* newProcess = new PCB("init","init");
+	std::shared_ptr<PCB> newProcess = std::make_shared<PCB>("init","init");
 	newProcess->PID = processCounter;
 	newProcess->parent = nullptr;
 	allProcesses.push_back(newProcess);
@@ -28,7 +28,7 @@ void ProcessManager::createInitProcess()
 void ProcessManager::createProcess(std::string processName, std::string fileName)
 {
 	processCounter++;
-	PCB *newProcess = new PCB(processName, fileName);
+	std::shared_ptr<PCB> newProcess = std::make_shared<PCB>(processName, fileName);
 	newProcess->PID = processCounter;
 	newProcess->parent = findProcess(1);
 	newProcess->parent->children.push_back(newProcess);

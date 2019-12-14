@@ -17,7 +17,7 @@ void Scheduler::era()
 	activeRunProcess->pop_front();
 	int eraCouter = 0;
 	while (interpreter->pcb->state == processState::active) {
-		interpreter->pcb->step = interpreter->step(interpreter->pcb->step);
+		interpreter->pcb->processCounter = interpreter->step(interpreter->pcb->processCounter);
 		++eraCouter;
 	}
 	if (interpreter->pcb->state != processState::terminated) {

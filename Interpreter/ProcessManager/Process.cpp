@@ -6,6 +6,12 @@
 extern std::list<PCB*> allProcesses;
 extern PCB* runningProcess;
 
+PCB::PCB()
+{
+	program = std::make_shared<std::vector<std::string>>();
+	ram = std::make_shared<RamInterface>(32);
+	processCounter = 0;
+}
 PCB::PCB(std::string processName, std::string filename)
 {
 	this->PID = processCounter;
@@ -16,7 +22,7 @@ PCB::PCB(std::string processName, std::string filename)
 	//loadProgramFromFile(fileName); //odczyt programu z pliku
 }
 
-int PCB::getPID()
+int PCB::getPID() const
 {
 	return PID;
 }
@@ -55,5 +61,23 @@ void PCB::displayChildren(unsigned int PID)
 	for (auto child : children)
 	{
 		child->displayProcess();
+	}
+}
+
+void PCB::loadProgramFromFile()
+{
+	std::string bufor;
+	std::ifstream input(this->fileName);
+	if (input.good() == true)
+	{
+		while (input >> bufor)
+		{
+			this->program->push_back(bufor);
+		}
+		input.close();
+	}
+	else
+	{
+		std::cout << "Nie znaleziono wskazanego pliku lub plik jest uszkodzony.";
 	}
 }

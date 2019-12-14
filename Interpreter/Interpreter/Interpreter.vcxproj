@@ -154,7 +154,6 @@
     <ClInclude Include="Interpreter.hpp" />
     <ClInclude Include="LogicCommand.hpp" />
     <ClInclude Include="MathCommand.hpp" />
-    <ClInclude Include="PCB.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AssemblerCommandFactory.cpp" />

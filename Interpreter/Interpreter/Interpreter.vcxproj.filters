@@ -39,9 +39,6 @@
     <ClInclude Include="Interpreter.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="PCB.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Command.hpp">
       <Filter>Header Files\CommandScript\Command</Filter>
     </ClInclude>

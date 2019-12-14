@@ -6,10 +6,10 @@
 #define getCX() readFromMemory(2)
 #define getDX() readFromMemory(3)
 
-#define setAX(value) writeToMemory(0, value)
-#define setBX(value) writeToMemory(1, value)
-#define setCX(value) writeToMemory(2, value)
-#define setDX(value) writeToMemory(3, value)
+#define setAX(value) writeInMemory(0, value)
+#define setBX(value) writeInMemory(1, value)
+#define setCX(value) writeInMemory(2, value)
+#define setDX(value) writeInMemory(3, value)
 
 class RamInterface {
 protected:
@@ -19,5 +19,5 @@ public:
 
 	int getMemorySize() const;
 	char readFromMemory(int position) const;
-	void writeToMemory(int position, char value);
+	void writeInMemory(int position, char value);
 };

@@ -9,7 +9,7 @@ namespace command {
 			std::vector<char> args = this->loadArgs(argv, startArgs, pcb, flags);
 			if (args.size() != argv) { throw std::exception("Failed loading arguments"); }
 			int result = args[0] + args[1];
-			pcb->setDX(result);
+			pcb->ram->setDX(result);
 			Flags::setFlags(flags, result);
 			return startArgs + argv;
 		}
@@ -21,7 +21,7 @@ namespace command {
 			std::vector<char> args = this->loadArgs(argv, startArgs, pcb, flags);
 			if (args.size() != argv) { throw std::exception("Failed loading arguments"); }
 			int result = args[0] - args[1];
-			pcb->setDX(result);
+			pcb->ram->setDX(result);
 			Flags::setFlags(flags, result);
 			return startArgs + argv;
 		}
@@ -33,7 +33,7 @@ namespace command {
 			std::vector<char> args = this->loadArgs(argv, startArgs, pcb, flags);
 			if (args.size() != argv) { throw std::exception("Failed loading arguments"); }
 			int result = args[0] * args[1];
-			pcb->setDX(result);
+			pcb->ram->setDX(result);
 			Flags::setFlags(flags, result);
 			return startArgs + argv;
 		}
@@ -46,7 +46,7 @@ namespace command {
 			if (args.size() != argv) { throw std::exception("Failed loading arguments"); }
 			if (args[1] != 0) {
 				int result = args[0] / args[1];
-				pcb->setDX(result);
+				pcb->ram->setDX(result);
 				Flags::setFlags(flags, result);
 				return startArgs;
 			}
@@ -63,7 +63,7 @@ namespace command {
 			if (args.size() != argv) { throw std::exception("Failed loading arguments"); }
 			if (args[1] != 0) {
 				int result = args[0] % args[1];
-				pcb->setDX(result);
+				pcb->ram->setDX(result);
 				Flags::setFlags(flags, result);
 				return startArgs;
 			}
@@ -79,7 +79,7 @@ namespace command {
 			if (args.size() != argv) { throw std::exception("Failed loading arguments"); }
 			
 			int result = ++args[0];
-			//pcb->setDX(result);
+			//pcb->ram->setDX(result);
 			std::string toWriteAdress = pcb->program->at(startArgs);
 			switch (toWriteAdress[0])
 			{
@@ -87,9 +87,9 @@ namespace command {
 			case 'A': pcb->setAX(result); break;
 			case 'B': pcb->setBX(result); break;
 			case 'C': pcb->setCX(result); break;
-			case 'D': pcb->setDX(result); break;
+			case 'D': pcb->ram->setDX(result); break;
 			default:
-				pcb->setDX(result);
+				pcb->ram->setDX(result);
 				break;
 			}
 			Flags::setFlags(flags, result);
@@ -104,7 +104,7 @@ namespace command {
 			std::vector<char> args = this->loadArgs(argv, startArgs, pcb, flags);
 			if (args.size() != argv) { throw std::exception("Failed loading arguments"); }
 			int result = --args[0];
-			//pcb->setDX(result);
+			//pcb->ram->setDX(result);
 			std::string toWriteAdress = pcb->program->at(startArgs);
 			switch (toWriteAdress[0])
 			{
@@ -112,9 +112,9 @@ namespace command {
 			case 'A': pcb->setAX(result); break;
 			case 'B': pcb->setBX(result); break;
 			case 'C': pcb->setCX(result); break;
-			case 'D': pcb->setDX(result); break;
+			case 'D': pcb->ram->setDX(result); break;
 			default:
-				pcb->setDX(result);
+				pcb->ram->setDX(result);
 				break;
 			}
 			Flags::setFlags(flags, result);
@@ -129,7 +129,7 @@ namespace command {
 			std::vector<char> args = this->loadArgs(argv, startArgs, pcb, flags);
 			if (args.size() != argv) { throw std::exception("Failed loading arguments"); }
 			int result = args[0] & args[1];
-			pcb->setDX(result);
+			pcb->ram->setDX(result);
 			Flags::setFlags(flags, result);
 			return startArgs + argv;
 		}
@@ -141,7 +141,7 @@ namespace command {
 			std::vector<char> args = this->loadArgs(argv, startArgs, pcb, flags);
 			if (args.size() != argv) { throw std::exception("Failed loading arguments"); }
 			int result = args[0] | args[1];
-			pcb->setDX(result);
+			pcb->ram->setDX(result);
 			Flags::setFlags(flags, result);
 			return startArgs + argv;
 		}
@@ -153,7 +153,7 @@ namespace command {
 			std::vector<char> args = this->loadArgs(argv, startArgs, pcb, flags);
 			if (args.size() != argv) { throw std::exception("Failed loading arguments"); }
 			int result = args[0] ^ args[1];
-			pcb->setDX(result);
+			pcb->ram->setDX(result);
 			Flags::setFlags(flags, result);
 			return startArgs + argv;
 		}
@@ -165,7 +165,7 @@ namespace command {
 			std::vector<char> args = this->loadArgs(argv, startArgs, pcb, flags);
 			if (args.size() != argv) { throw std::exception("Failed loading arguments"); }
 			int result = ~args[0];
-			pcb->setDX(result);
+			pcb->ram->setDX(result);
 			Flags::setFlags(flags, result);
 			return startArgs + argv;
 		}
@@ -177,7 +177,7 @@ namespace command {
 			std::vector<char> args = this->loadArgs(argv, startArgs, pcb, flags);
 			if (args.size() != argv) { throw std::exception("Failed loading arguments"); }
 			int result = args[0] << args[1];
-			pcb->setDX(result);
+			pcb->ram->setDX(result);
 			Flags::setFlags(flags, result);
 			return startArgs + argv;
 		}
@@ -189,7 +189,7 @@ namespace command {
 			std::vector<char> args = this->loadArgs(argv, startArgs, pcb, flags);
 			if (args.size() != argv) { throw std::exception("Failed loading arguments"); }
 			int result = args[0] >> args[1];
-			pcb->setDX(result);
+			pcb->ram->setDX(result);
 			Flags::setFlags(flags, result);
 			return startArgs + argv;
 		}

@@ -3,7 +3,7 @@
 #include<vector>
 #include<memory>
 #include"Flags.hpp"
-#include"PCB.hpp"
+#include"../ProcessManager/Process.hpp"
 #include"Conversion.hpp"
 
 class AssembleCommandInterface {

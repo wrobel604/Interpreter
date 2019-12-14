@@ -15,7 +15,7 @@ char RamInterface::readFromMemory(int position) const
 	return memory[position];
 }
 
-void RamInterface::writeToMemory(int position, char value)
+void RamInterface::writeInMemory(int position, char value)
 {
 	memory[position] = value;
 }
