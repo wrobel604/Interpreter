@@ -8,5 +8,5 @@
 
 class AssembleCommandInterface {
 public:
-	virtual char doCommand(std::shared_ptr<PCB>& pcb, Flags& flags, char startArgs = 0) = 0;
+	virtual char doCommand(std::shared_ptr<PCB>& pcb, char startArgs = 0) = 0;
 };

@@ -4,8 +4,8 @@
 
 class AssemblerTranslator : public AssembleCommandInterface {
 public:
-	virtual char doCommand(std::shared_ptr<PCB>& pcb, Flags& flags, char startArgs = 0) = 0;
-	virtual std::vector<ArgumentType> loadArgs(char argv, char startPos, std::shared_ptr<PCB>& pcb, Flags& flags) {
+	virtual char doCommand(std::shared_ptr<PCB>& pcb, char startArgs = 0) = 0;
+	virtual std::vector<ArgumentType> loadArgs(char argv, char startPos, std::shared_ptr<PCB>& pcb) {
 		std::vector<ArgumentType> result;
 		std::string buf = "";
 		for (int i = 0; i < argv; ++i) {
@@ -44,13 +44,14 @@ public:
 				}
 				else
 				{
-					result.push_back(ArgumentType{ ArgumentType::Type::Flags, flags[CF] });
+					result.push_back(ArgumentType{ ArgumentType::Type::Flags, Flags::getFlag(pcb->getFlags(), CF) });
 				}
 				break;
 			case 'D': result.push_back(ArgumentType{ ArgumentType::Type::DX, pcb->getDX() }); break; 
-			case 'P': result.push_back(ArgumentType{ ArgumentType::Type::Flags, flags[PF] }); break;
-			case 'L': result.push_back(ArgumentType{ ArgumentType::Type::Flags, flags[LF] }); break;
-			case 'S': result.push_back(ArgumentType{ ArgumentType::Type::Flags, flags[SF] }); break;
+			case 'P': result.push_back(ArgumentType{ ArgumentType::Type::Flags, Flags::getFlag(pcb->getFlags(), PF) }); break;
+			case 'L': result.push_back(ArgumentType{ ArgumentType::Type::Flags, Flags::getFlag(pcb->getFlags(), LF) }); break;
+			case 'S': result.push_back(ArgumentType{ ArgumentType::Type::Flags, Flags::getFlag(pcb->getFlags(), SF) }); break;
+			case 'W': result.push_back(ArgumentType{ ArgumentType::Type::Flags, Flags::getFlag(pcb->getFlags(), WF) }); break;
 			default:
 				result.push_back(ArgumentType{ ArgumentType::Type::Value, (char)atoi(buf.c_str()) });
 				break;

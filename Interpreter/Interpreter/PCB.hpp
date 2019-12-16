@@ -7,24 +7,27 @@
 #include<fstream>
 
 #define ArraySize 32
-
+enum processState
+{
+	active = 0, waiting = 1, ready = 2, terminated = 3
+};
 class PCB {
-	char memory[ArraySize];
-	int startIndex = 4;
-	
-	bool isOutRange(char adrr){ return adrr >= 0 && adrr < ArraySize;}
-public:
-	enum class ProcessState : char {
-		active = 0, waiting = 1, ready = 2, terminated = 3
-	};
-
 	int PID;
-	ProcessState state = ProcessState::active;
-	std::shared_ptr<std::vector<std::string>> program;
+	std::string processName;
+	std::string fileName;
+	char AX, BX, CX, DX, Flag;
+	char memory[ArraySize];
+public:
+
+	processState state;
+	std::shared_ptr<std::vector<std::string>> program; 
+	std::shared_ptr<PCB> parent;
 
 	PCB() { 
 		for (int i = 0; i < ArraySize; ++i) { memory[i] = 0; } 
 		program = std::make_shared<std::vector<std::string>>(); 
+		state = processState::active;
+		AX = BX = CX = DX = Flag = 0;
 	}
 	PCB(std::string program_adrr) : PCB() {
 		std::string bufor;
@@ -37,7 +40,6 @@ public:
 		in.close();
 	}
 	PCB(const PCB& pcb) :PCB(){
-		startIndex = pcb.startIndex;
 		program = pcb.program;
 	}
 	static std::shared_ptr<PCB> loadProgramFromFile(std::string program_adrr) {
@@ -52,22 +54,22 @@ public:
 	}
 	
 	void writeInMemory(int adrr, char value){
-		adrr += startIndex;
 		this->memory[adrr] = value;
 	}
 	char readFromMemory(char adrr){
-		adrr += startIndex;
 		return memory[adrr];
 	}
-	char getAX() { return memory[0]; }
-	char getBX() { return memory[1]; }
-	char getCX() { return memory[2]; }
-	char getDX() { return memory[3]; }
+	char getAX() const { return AX; }
+	char getBX() const { return BX; }
+	char getCX() const { return CX; }
+	char getDX() const { return DX; }
+	char getFlags() const { return Flag; }
 
-	void setAX(char value) { memory[0] = value; }
-	void setBX(char value) { memory[1] = value; }
-	void setCX(char value) { memory[2] = value; }
-	void setDX(char value) { memory[3] = value; }
+	void setAX(char value) { AX = value; } //ustawia wartosc value w danym rejestrze
+	void setBX(char value) { BX = value; }
+	void setCX(char value) { CX = value; }
+	void setDX(char value) { DX = value; }
+	void setFlags(char value) { Flag = value; }
 
 	void printMemory() {
 		for (int i = 0; i < ArraySize; ++i) { std::cout<<static_cast<int>(memory[i]) <<"|"; }

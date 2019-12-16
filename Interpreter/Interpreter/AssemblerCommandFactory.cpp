@@ -35,6 +35,7 @@ std::unique_ptr<AssembleCommandInterface> AssemblerCommandFactory::addCommand(st
 	if (commandName == "MRE") { return std::make_unique<command::MoreOrEqual>(); }
 	//Console
 	if (commandName == "OUT") { return std::make_unique<command::ConsoleWriteLetter>(); }
+	if (commandName == "ONR") { return std::make_unique<command::ConsoleWriteNumber>(); }
 	if (commandName == "MOT") { return std::make_unique<command::ConsoleWriteWords>(); }
 	if (commandName == "IN") { return std::make_unique<command::ConsoleRead>(); }
 	if (commandName == "INS") { return std::make_unique<command::ConsoleReadChar>(); }
