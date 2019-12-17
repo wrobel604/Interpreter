@@ -143,9 +143,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="AssemblerCommandFactory.hpp" />
+    <ClInclude Include="AssemblerCommandFactoryInterface.hpp" />
     <ClInclude Include="AssemblerCommandInterface.hpp" />
     <ClInclude Include="CommandScript\ArgumentType.hpp" />
+    <ClInclude Include="CommandScript\AssemblerCommandFactory.hpp" />
     <ClInclude Include="CommandScript\AssemblerTranslator.hpp" />
     <ClInclude Include="CommandScript\Commands\Command.hpp" />
     <ClInclude Include="CommandScript\Commands\ConsoleCommand.hpp" />
@@ -159,7 +160,11 @@
     <ClInclude Include="PCB.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="AssemblerCommandFactory.cpp" />
+    <ClCompile Include="CommandScript\AssemblerCommandFactory.cpp" />
+    <ClCompile Include="CommandScript\Commands\Command.cpp" />
+    <ClCompile Include="CommandScript\Commands\ConsoleCommand.cpp" />
+    <ClCompile Include="CommandScript\Commands\LogicCommand.cpp" />
+    <ClCompile Include="CommandScript\Commands\MathCommand.cpp" />
     <ClCompile Include="Conversion.cpp" />
     <ClCompile Include="Interpreter.cpp" />
   </ItemGroup>

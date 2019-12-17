@@ -51,7 +51,7 @@ public:
 			case 'P': result.push_back(ArgumentType{ ArgumentType::Type::Flags, Flags::getFlag(pcb->getFlags(), PF) }); break;
 			case 'L': result.push_back(ArgumentType{ ArgumentType::Type::Flags, Flags::getFlag(pcb->getFlags(), LF) }); break;
 			case 'S': result.push_back(ArgumentType{ ArgumentType::Type::Flags, Flags::getFlag(pcb->getFlags(), SF) }); break;
-			case 'W': result.push_back(ArgumentType{ ArgumentType::Type::Flags, Flags::getFlag(pcb->getFlags(), WF) }); break;
+			case 'W': result.push_back(ArgumentType{ ArgumentType::Type::Flags, Flags::getFlag(pcb->getFlags(), TF) }); break;
 			default:
 				result.push_back(ArgumentType{ ArgumentType::Type::Value, (char)atoi(buf.c_str()) });
 				break;

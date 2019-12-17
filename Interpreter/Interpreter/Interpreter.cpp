@@ -49,7 +49,7 @@ int Interpreter::stepWithDebug(int instructionPosition)
 	std::cout << "LF = " << Flags::getFlag(pcb->getFlags(), LF) << "\n\t";
 	std::cout << "SF = " << Flags::getFlag(pcb->getFlags(), SF) << "\n\t";
 	std::cout << "CF = " << Flags::getFlag(pcb->getFlags(), CF) << "\n";
-	std::cout << "WF = " << Flags::getFlag(pcb->getFlags(), WF) << "\n";
+	std::cout << "WF = " << Flags::getFlag(pcb->getFlags(), TF) << "\n";
 	std::cout << "Memory: ";
 	pcb->printMemory();
 	if (result < pcb->program->size()) {

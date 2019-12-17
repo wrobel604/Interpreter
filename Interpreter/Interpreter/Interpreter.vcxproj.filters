@@ -21,9 +21,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AssemblerCommandFactory.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="AssemblerCommandInterface.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -63,16 +60,34 @@
     <ClInclude Include="CommandScript\Commands\Command.hpp">
       <Filter>Header Files\CommandScript\Commands</Filter>
     </ClInclude>
+    <ClInclude Include="AssemblerCommandFactoryInterface.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CommandScript\AssemblerCommandFactory.hpp">
+      <Filter>Header Files\CommandScript</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="AssemblerCommandFactory.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Interpreter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Conversion.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CommandScript\AssemblerCommandFactory.cpp">
+      <Filter>Header Files\CommandScript</Filter>
+    </ClCompile>
+    <ClCompile Include="CommandScript\Commands\Command.cpp">
+      <Filter>Header Files\CommandScript\Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="CommandScript\Commands\ConsoleCommand.cpp">
+      <Filter>Header Files\CommandScript\Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="CommandScript\Commands\LogicCommand.cpp">
+      <Filter>Header Files\CommandScript\Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="CommandScript\Commands\MathCommand.cpp">
+      <Filter>Header Files\CommandScript\Commands</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
