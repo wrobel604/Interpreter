@@ -1,5 +1,6 @@
-SET AX 40
-SET BX 10
-DIV AX BX
+SET AX ')'
+SET [0] AX
+SET {1} 5
+DIV [0] {1}
 ONR DX
 END

@@ -1,0 +1,4 @@
+SET AX 97
+INC AX
+OUT AX
+END

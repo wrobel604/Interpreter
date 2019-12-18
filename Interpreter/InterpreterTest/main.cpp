@@ -5,7 +5,7 @@ std::string pr = "SET AX 5\nSET [AX] 65\nOUT [AX]\nEND";
 
 int main(int argc, char** argv) {
 	bool debug = false;
-	std::shared_ptr<PCB> pcb;
+	std::shared_ptr<PCB> pcb, p2;
 	std::unique_ptr<Interpreter> interpreter;
 	if (argc>1) {
 		//pcb = PCB::loadProgramFromFile(argv[1]);
@@ -15,21 +15,18 @@ int main(int argc, char** argv) {
 		//pcb = PCB::loadProgramFromFile("out.txt");
 		pcb = std::make_shared<PCB>("out.txt");
 	}
-	for (const std::string& s : *pcb->program) {
-		std::cout << s << " ";
-	}
+		pcb->state = processState::active;
 	std::cout << "\n";
 	debug = argc > 2;
-	//debug = true;
-	if (pcb!=nullptr && pcb->program->size() > 0) {
+	debug = true; 
+	pcb->printMemory(); std::cout << "\n";
+	if (pcb!=nullptr && pcb->getMemorySize() > 0) {
 		interpreter = std::make_unique<Interpreter>(pcb);
-		int step = 0;
-		pcb->writeInMemory(10, 70);
 		try {
 			while (pcb->state==processState::active) {
-				step = (debug)? interpreter->stepWithDebug(step):interpreter->step(step);
+				interpreter->pcb->instrucionCounter = (debug)? interpreter->stepWithDebug():interpreter->step();
 				//std::cin.get();
-			}
+				}
 		}
 		catch (std::exception & e) {
 			std::cout << e.what() << "\n";

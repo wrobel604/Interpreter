@@ -9,31 +9,31 @@ public:
 		std::vector<ArgumentType> result;
 		std::string buf = "";
 		for (int i = 0; i < argv; ++i) {
-			buf = pcb->program->at(startPos + i);
+			buf = AssembleCommandInterface::loadWordFromPcb(startPos + i, pcb);
+			startPos += buf.size();
+				//pcb->program->at(startPos + i);
 			switch (buf[0])
 			{
 			case '\'': result.push_back(ArgumentType{ ArgumentType::Type::Value, buf[1] }); break;
 			case '[':
 				switch (buf[1])
 				{
-				case 'A':result.push_back(ArgumentType{ ArgumentType::Type::Ptr, pcb->readFromMemory(pcb->getAX()) }); break;
-				case 'B':result.push_back(ArgumentType{ ArgumentType::Type::Ptr, pcb->readFromMemory(pcb->getAX()) }); break;
-				case 'C':result.push_back(ArgumentType{ ArgumentType::Type::Ptr, pcb->readFromMemory(pcb->getAX()) }); break;
-				case 'D':result.push_back(ArgumentType{ ArgumentType::Type::Ptr, pcb->readFromMemory(pcb->getAX()) }); break;
+				case 'A':result.push_back(ArgumentType{ ArgumentType::Type::Ptr, pcb->getAX() }); break;
+				case 'B':result.push_back(ArgumentType{ ArgumentType::Type::Ptr, pcb->getBX() }); break;
+				case 'C':result.push_back(ArgumentType{ ArgumentType::Type::Ptr, pcb->getCX() }); break;
+				case 'D':result.push_back(ArgumentType{ ArgumentType::Type::Ptr, pcb->getDX() }); break;
 				default:
 					result.push_back(ArgumentType{ ArgumentType::Type::Ptr, NumberConversion::stringToCharNumber(buf.substr(1, buf.size() - 2)) });
 					break;
 				}break;
 			case '{': 
 				switch (buf[1]) {
-				case 'A': result.push_back(ArgumentType{ ArgumentType::Type::Value, NumberConversion::stringToCharNumber(pcb->program->at(pcb->getAX())) }); break;
-				case 'B': result.push_back(ArgumentType{ ArgumentType::Type::Value, NumberConversion::stringToCharNumber(pcb->program->at(pcb->getBX())) }); break;
-				case 'C': result.push_back(ArgumentType{ ArgumentType::Type::Value, NumberConversion::stringToCharNumber(pcb->program->at(pcb->getCX())) }); break;
-				case 'D': result.push_back(ArgumentType{ ArgumentType::Type::Value, NumberConversion::stringToCharNumber(pcb->program->at(pcb->getDX())) }); break;
+				case 'A': result.push_back(ArgumentType{ ArgumentType::Type::CodePtr, pcb->getAX() }); break;
+				case 'B': result.push_back(ArgumentType{ ArgumentType::Type::CodePtr, pcb->getBX() }); break;
+				case 'C': result.push_back(ArgumentType{ ArgumentType::Type::CodePtr, pcb->getCX() }); break;
+				case 'D': result.push_back(ArgumentType{ ArgumentType::Type::CodePtr, pcb->getDX() }); break;
 				default:
-					std::string val = pcb->program->at(NumberConversion::stringToCharNumber(buf.substr(1, buf.size() - 2)));
-					if(val[0]=='\''){ result.push_back(ArgumentType{ ArgumentType::Type::Value, val[1] }); }else
-					result.push_back(ArgumentType{ ArgumentType::Type::Value, NumberConversion::stringToCharNumber(val) });
+					result.push_back(ArgumentType{ ArgumentType::Type::CodePtr, NumberConversion::stringToCharNumber(buf.substr(1, buf.size() - 2)) });
 				}
 				break;
 			case 'A': result.push_back(ArgumentType{ ArgumentType::Type::AX, pcb->getAX() }); break;
@@ -70,7 +70,8 @@ public:
 		case ArgumentType::Type::CX: 
 		case ArgumentType::Type::DX: 
 			return args.getValue(); break;
-		case ArgumentType::Type::Ptr: return pcb->readFromMemory(args.getValue()); break;
+		case ArgumentType::Type::Ptr: return pcb->readFromDataMemory(args.getValue()); break;
+		case ArgumentType::Type::CodePtr: return pcb->readFromProgramMemory(args.getValue()); break;
 		default:
 			break;
 		}
@@ -83,9 +84,11 @@ public:
 		case ArgumentType::Type::BX:pcb->setBX(value); break;
 		case ArgumentType::Type::CX:pcb->setCX(value); break;
 		case ArgumentType::Type::DX:pcb->setDX(value); break;
-		case ArgumentType::Type::Ptr: pcb->writeInMemory(args.getValue(), value); break;
+		case ArgumentType::Type::Ptr: pcb->writeInDataMemory(args.getValue(), value); break;
+		case ArgumentType::Type::CodePtr: pcb->writeInProgramMemory(args.getValue(), value); break;
 		default:
 			break;
 		}
 	}
+	virtual int ArgumentLength(int argc, int startPos, std::shared_ptr<PCB>& pcb);
 };

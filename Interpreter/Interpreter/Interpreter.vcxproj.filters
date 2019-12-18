@@ -89,5 +89,11 @@
     <ClCompile Include="CommandScript\Commands\MathCommand.cpp">
       <Filter>Header Files\CommandScript\Commands</Filter>
     </ClCompile>
+    <ClCompile Include="AssemblerCommandInterface.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CommandScript\AssemblerTranslator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

@@ -1,6 +1,5 @@
 #pragma once
 #include<map>
-#include"PCB.hpp"
 #include"CommandScript/AssemblerCommandFactory.hpp"
 
 class Interpreter
@@ -15,8 +14,8 @@ public:
 	Interpreter(std::shared_ptr<PCB>& pcb_ptr);
 	~Interpreter();
 
-	int step(int instructionPosition);
-	int stepWithDebug(int instructionPosition);
+	int step();
+	int stepWithDebug();
 
 	std::shared_ptr<PCB>& getPCB();
 };

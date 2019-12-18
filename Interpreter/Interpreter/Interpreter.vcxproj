@@ -160,7 +160,9 @@
     <ClInclude Include="PCB.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AssemblerCommandInterface.cpp" />
     <ClCompile Include="CommandScript\AssemblerCommandFactory.cpp" />
+    <ClCompile Include="CommandScript\AssemblerTranslator.cpp" />
     <ClCompile Include="CommandScript\Commands\Command.cpp" />
     <ClCompile Include="CommandScript\Commands\ConsoleCommand.cpp" />
     <ClCompile Include="CommandScript\Commands\LogicCommand.cpp" />

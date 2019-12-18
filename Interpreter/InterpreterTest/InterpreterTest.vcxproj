@@ -150,7 +150,9 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <Text Include="EqualTest.txt" />
     <Text Include="out.txt" />
+    <Text Include="programTestowy.txt" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Interpreter\Interpreter.vcxproj">

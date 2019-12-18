@@ -6,8 +6,7 @@
 #include<regex>
 #include<fstream>
 
-#define ArraySize 32
-enum processState
+enum class processState : char
 {
 	active = 0, waiting = 1, ready = 2, terminated = 3
 };
@@ -16,17 +15,16 @@ class PCB {
 	std::string processName;
 	std::string fileName;
 	char AX, BX, CX, DX, Flag;
-	char memory[ArraySize];
+	std::vector<char> memory;
+	int programSize;
 public:
 
 	processState state;
-	std::shared_ptr<std::vector<std::string>> program; 
 	std::shared_ptr<PCB> parent;
+	int instrucionCounter = 0;
 
 	PCB() { 
-		for (int i = 0; i < ArraySize; ++i) { memory[i] = 0; } 
-		program = std::make_shared<std::vector<std::string>>(); 
-		state = processState::active;
+		state = processState::ready;
 		AX = BX = CX = DX = Flag = 0;
 	}
 	PCB(std::string program_adrr) : PCB() {
@@ -34,29 +32,25 @@ public:
 		std::ifstream in(program_adrr);
 		if (in.is_open()) {
 			while (in >> bufor) {
-				program->push_back(bufor);
+				for (char& i : bufor) { memory.push_back(i); }
+				memory.push_back(' ');
 			}
+			programSize = getMemorySize();
+			for(int i=0;i<10;++i){ memory.push_back(' '); }
 		}
 		in.close();
-	}
-	PCB(const PCB& pcb) :PCB(){
-		program = pcb.program;
-	}
-	static std::shared_ptr<PCB> loadProgramFromFile(std::string program_adrr) {
-		std::shared_ptr<PCB> result = std::make_shared<PCB>();
-		std::string bufor;
-		std::ifstream in(program_adrr);
-		while (in >> bufor) {
-			result->program->push_back(bufor);
-		}
-		in.close();
-		return result;
 	}
 	
-	void writeInMemory(int adrr, char value){
+	void writeInDataMemory(int adrr, char value){
+		this->memory[adrr+programSize] = value;
+	}
+	void writeInProgramMemory(int adrr, char value){
 		this->memory[adrr] = value;
 	}
-	char readFromMemory(char adrr){
+	char readFromDataMemory(char adrr){
+		return memory[adrr + programSize];
+	}
+	char readFromProgramMemory(char adrr){
 		return memory[adrr];
 	}
 	char getAX() const { return AX; }
@@ -71,7 +65,8 @@ public:
 	void setDX(char value) { DX = value; }
 	void setFlags(char value) { Flag = value; }
 
+	int getMemorySize() const { return memory.size(); }
 	void printMemory() {
-		for (int i = 0; i < ArraySize; ++i) { std::cout<<static_cast<int>(memory[i]) <<"|"; }
+		for (char& i: memory) { std::cout<<i <<"|"; }
 	}
 };
