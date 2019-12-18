@@ -37,10 +37,7 @@ std::unique_ptr<AssembleCommandInterface> AssemblerCommandFactory::addCommand(st
 	if (commandName == "OUT") { return std::make_unique<command::ConsoleWriteLetter>(); }
 	if (commandName == "ONR") { return std::make_unique<command::ConsoleWriteNumber>(); }
 	if (commandName == "MOT") { return std::make_unique<command::ConsoleWriteWords>(); }
-	if (commandName == "IN") { return std::make_unique<command::ConsoleRead>(); }
-	if (commandName == "INS") { return std::make_unique<command::ConsoleReadChar>(); }
 	if (commandName == "END") { return std::make_unique<command::End>(); }
-	if (commandName == "CLK") { return std::make_unique<command::Click>(); }
 
 	return nullptr;
 }

@@ -27,19 +27,3 @@ char command::ConsoleWriteWords::doCommand(std::shared_ptr<PCB>& pcb, char start
 	}
 	return startArgs + argv + size;
 }
-
-char command::ConsoleRead::doCommand(std::shared_ptr<PCB>& pcb, char startArgs) {
-	std::string text;
-	int value = 0;
-	std::cin >> text; std::cin.ignore();
-
-	pcb->setBX(NumberConversion::stringToCharNumber(text));
-	return startArgs;
-}
-
-char command::ConsoleReadChar::doCommand(std::shared_ptr<PCB>& pcb, char startArgs) {
-	char sign;
-	std::cin >> sign; std::cin.ignore();
-	pcb->setBX(sign);
-	return startArgs;
-}

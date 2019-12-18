@@ -40,8 +40,3 @@ char command::End::doCommand(std::shared_ptr<PCB>& pcb, char startArgs) {
 	}
 	return startArgs;
 }
-
-char command::Click::doCommand(std::shared_ptr<PCB>& pcb, char startArgs) {
-	std::cin.get();
-	return startArgs;
-}
