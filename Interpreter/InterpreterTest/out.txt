@@ -1,13 +1,12 @@
+SET [0] 'H'
+SET [1] 'e'
 CRF 'a'
 OPF 'a'
-APF 'a' 'H'
-APF 'a' 'e'
-APF 'a' 'l'
+APF 'a' [0]
+APF 'a' [1]
 RDF 'a' 0
 OUT BX
 RDF 'a' 1
-OUT BX
-RDF 'a' 2
 OUT BX
 CLF 'a'
 END

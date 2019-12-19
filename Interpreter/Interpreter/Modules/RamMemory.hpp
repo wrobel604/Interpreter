@@ -9,7 +9,7 @@ class RamMemory
 	std::vector<char> memory;
 	int programSize;
 public:
-	RamMemory(int ram = 1024);
+	RamMemory(int ram = 255);
 
 	int getMemorySize() const;
 	int getProgramSize() const;

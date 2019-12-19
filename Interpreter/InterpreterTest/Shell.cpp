@@ -85,10 +85,6 @@ void Shell::doCommand()
 			return;
 		}
 		if (command[0] == "steps") {
-			if (interpreter->pcb->state == processState::terminated) { interpreter->pcb = nullptr; }
-			else if (interpreter->pcb->state == processState::waiting) {
-				std::swap(interpreter->pcb, pcb);
-			}
 			if (interpreter->pcb == nullptr && pcb == nullptr) {
 				std::cout << "Brak procesow w kolejce\n"; return;
 			}
@@ -97,6 +93,10 @@ void Shell::doCommand()
 					interpreter->pcb = pcb; pcb = nullptr;
 					interpreter->pcb->state = processState::active;
 				}
+			}
+			if (interpreter->pcb->state == processState::terminated) { interpreter->pcb = nullptr; }
+			else if (interpreter->pcb->state == processState::waiting) {
+				std::swap(interpreter->pcb, pcb);
 			}
 			std::cout << "Wykonanie procesu  " << interpreter->pcb->getProcessName() << std::endl;
 			if (debug) {
@@ -129,7 +129,7 @@ void Shell::doCommand()
 			}
 			return;
 		}
-		if (command[0] == "setnr") {
+		if (command[0] == "set") {
 			if (interpreter->pcb != nullptr) {
 				if (command.size() > 2) {
 					int id = NumberConversion::stringToInt(command[1]);
@@ -179,7 +179,7 @@ void Shell::doCommand()
 			std::cout << "kill\tniszczy aktualnie wykonywany proces\n";
 			std::cout << "step\twykonuje instrukcje aktywnego procesu'\n";
 			std::cout << "memory\twyswietla zawartosc pamieci aktywnego procesu\n";
-			std::cout << "setnr position value\tustawia wartosc komorki position na wartosc value w pamieci aktywnego procesu\n";
+			std::cout << "set position value\tustawia wartosc komorki position na wartosc value w pamieci aktywnego procesu\n";
 			std::cout << "debug on/off\twlacz/wylacz tryb debufowania\n";
 			std::cout << "exit\tzakoncz dzialanie programu\n";
 			return;
