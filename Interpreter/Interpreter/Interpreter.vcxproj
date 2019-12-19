@@ -157,7 +157,9 @@
     <ClInclude Include="Conversion.hpp" />
     <ClInclude Include="Flags.hpp" />
     <ClInclude Include="Interpreter.hpp" />
-    <ClInclude Include="PCB.hpp" />
+    <ClInclude Include="Modules\PCB.hpp" />
+    <ClInclude Include="Modules\ProgramLoader.hpp" />
+    <ClInclude Include="Modules\RamMemory.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AssemblerCommandInterface.cpp" />
@@ -165,10 +167,14 @@
     <ClCompile Include="CommandScript\AssemblerTranslator.cpp" />
     <ClCompile Include="CommandScript\Commands\Command.cpp" />
     <ClCompile Include="CommandScript\Commands\ConsoleCommand.cpp" />
+    <ClCompile Include="CommandScript\Commands\FileCommand.cpp" />
     <ClCompile Include="CommandScript\Commands\LogicCommand.cpp" />
     <ClCompile Include="CommandScript\Commands\MathCommand.cpp" />
+    <ClCompile Include="CommandScript\Commands\ProcessCommand.cpp" />
     <ClCompile Include="Conversion.cpp" />
     <ClCompile Include="Interpreter.cpp" />
+    <ClCompile Include="Modules\PCB.cpp" />
+    <ClCompile Include="Modules\RamMemory.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

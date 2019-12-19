@@ -1,6 +1,13 @@
-SET AX ')'
-SET [0] AX
-SET {1} 5
-DIV [0] {1}
-ONR DX
+CRF 'a'
+OPF 'a'
+APF 'a' 'H'
+APF 'a' 'e'
+APF 'a' 'l'
+RDF 'a' 0
+OUT BX
+RDF 'a' 1
+OUT BX
+RDF 'a' 2
+OUT BX
+CLF 'a'
 END

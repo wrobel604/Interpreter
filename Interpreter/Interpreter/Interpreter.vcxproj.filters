@@ -19,6 +19,9 @@
     <Filter Include="Header Files\CommandScript\Commands">
       <UniqueIdentifier>{8e01baef-35f0-49fa-92ae-1fdbf82fc35d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Modules">
+      <UniqueIdentifier>{581ce8ad-547a-4a4e-b32e-f441ccbeb610}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AssemblerCommandInterface.hpp">
@@ -31,9 +34,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Interpreter.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="PCB.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="CommandScript\ArgumentType.hpp">
@@ -66,6 +66,15 @@
     <ClInclude Include="CommandScript\AssemblerCommandFactory.hpp">
       <Filter>Header Files\CommandScript</Filter>
     </ClInclude>
+    <ClInclude Include="Modules\PCB.hpp">
+      <Filter>Header Files\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Modules\RamMemory.hpp">
+      <Filter>Header Files\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Modules\ProgramLoader.hpp">
+      <Filter>Header Files\Modules</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Interpreter.cpp">
@@ -94,6 +103,18 @@
     </ClCompile>
     <ClCompile Include="CommandScript\AssemblerTranslator.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Modules\RamMemory.cpp">
+      <Filter>Header Files\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="CommandScript\Commands\FileCommand.cpp">
+      <Filter>Header Files\CommandScript\Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="Modules\PCB.cpp">
+      <Filter>Header Files\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="CommandScript\Commands\ProcessCommand.cpp">
+      <Filter>Header Files\CommandScript\Commands</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

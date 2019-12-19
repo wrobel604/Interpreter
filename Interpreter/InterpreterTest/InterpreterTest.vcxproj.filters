@@ -18,10 +18,22 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Shell.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="out.txt" />
     <Text Include="EqualTest.txt" />
     <Text Include="programTestowy.txt" />
+    <Text Include="Text.txt" />
+    <Text Include="memoryTest.txt" />
+    <Text Include="nwd.txt" />
+    <Text Include="dummy.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Shell.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

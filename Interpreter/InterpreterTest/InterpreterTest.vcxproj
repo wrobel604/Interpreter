@@ -148,16 +148,24 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Shell.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <Text Include="dummy.txt" />
     <Text Include="EqualTest.txt" />
+    <Text Include="memoryTest.txt" />
+    <Text Include="nwd.txt" />
     <Text Include="out.txt" />
     <Text Include="programTestowy.txt" />
+    <Text Include="Text.txt" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Interpreter\Interpreter.vcxproj">
       <Project>{4b376025-5994-403e-8673-56a1d794f569}</Project>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Shell.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

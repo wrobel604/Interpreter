@@ -3,6 +3,7 @@
 #include"Commands/MathCommand.hpp"
 #include"Commands/LogicCommand.hpp"
 #include"Commands/ConsoleCommand.hpp"
+#include"Commands/FileCommand.hpp"
 
 std::unique_ptr<AssembleCommandInterface> AssemblerCommandFactory::addCommand(std::string commandName)
 {
@@ -38,6 +39,13 @@ std::unique_ptr<AssembleCommandInterface> AssemblerCommandFactory::addCommand(st
 	if (commandName == "ONR") { return std::make_unique<command::ConsoleWriteNumber>(); }
 	if (commandName == "MOT") { return std::make_unique<command::ConsoleWriteWords>(); }
 	if (commandName == "END") { return std::make_unique<command::End>(); }
+	//File
+	if (commandName == "CRF") { return std::make_unique<command::CreateFile>(); }
+	if (commandName == "OPF") { return std::make_unique<command::OpenFile>(); }
+	if (commandName == "CLF") { return std::make_unique<command::CloseFile>(); }
+	if (commandName == "WRF") { return std::make_unique<command::WriteCharToFile>(); }
+	if (commandName == "RDF") { return std::make_unique<command::ReadCharFromFile>(); }
+	if (commandName == "APF") { return std::make_unique<command::AppendCharToFile>(); }
 
 	return nullptr;
 }

@@ -21,6 +21,7 @@ int Interpreter::step()
 {
 	int result = 0;
 	std::string command = AssembleCommandInterface::loadWordFromPcb(pcb->instrucionCounter, pcb);
+	//for (char& i : command) { i = std::toupper(i); }
 	if(functionList.find(command)==functionList.end()){
 		bool isAdded = false;
 		if (Interpreter::commandFactory != nullptr) {
@@ -39,13 +40,7 @@ int Interpreter::stepWithDebug()
 	std::string command = AssembleCommandInterface::loadWordFromPcb(pcb->instrucionCounter, pcb);
 	std::cout << "Command: " << command << "\nDisplay: ";
 	int result = step();
-	std::cout << "\nArguments: ";
-	pcb->instrucionCounter += command.size();
-	for (int i = pcb->instrucionCounter + 1; i < result; ++i) {
-		command = AssembleCommandInterface::loadWordFromPcb(pcb->instrucionCounter, pcb);
-		std::cout << command <<" ";
-		pcb->instrucionCounter += command.size();
-	}
+	//std::cout << "\nArguments: ";
 	std::cout << "\nRegisters:\n\tAX = " << static_cast<int>(pcb->getAX()) << "\n\t";
 	std::cout << "BX = " << static_cast<int>(pcb->getBX()) << "\n\t";
 	std::cout << "CX = " << static_cast<int>(pcb->getCX()) << "\n\t";
@@ -56,7 +51,7 @@ int Interpreter::stepWithDebug()
 	std::cout << "CF = " << Flags::getFlag(pcb->getFlags(), CF) << "\n";
 	std::cout << "WF = " << Flags::getFlag(pcb->getFlags(), TF) << "\n";
 	std::cout << "Memory: ";
-	pcb->printMemory();
+	//pcb->printMemory();
 	std::cout << "\nNext adress: " << result << "\n";
 	if (result < pcb->getMemorySize()) {
 		std::cout << "Next command: " << AssembleCommandInterface::loadWordFromPcb(result, pcb) << "\n";
