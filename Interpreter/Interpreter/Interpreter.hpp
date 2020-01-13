@@ -1,22 +1,18 @@
 #pragma once
 #include<map>
-#include"CommandScript/AssemblerCommandFactory.hpp"
+#include"Interfaces/AssembleCommandFactoryInterface.hpp"
+#include"Interfaces/AssembleCommandReaderInterface.hpp"
 
 class Interpreter
 {
-protected:
 	std::map<std::string, std::unique_ptr<AssembleCommandInterface>> functionList;
 public:
-	std::shared_ptr<PCB> pcb;
-	std::unique_ptr<AssemblerCommandFactory> commandFactory;
+	std::unique_ptr<AssembleCommandFactoryInterface> commandFactory;
+	std::shared_ptr<AssembleCommandReaderInterface> commandReader;
+
 
 	Interpreter();
-	Interpreter(std::shared_ptr<PCB>& pcb_ptr);
-	~Interpreter();
 
 	int step();
-	int stepWithDebug();
-
-	std::shared_ptr<PCB>& getPCB();
 };
 

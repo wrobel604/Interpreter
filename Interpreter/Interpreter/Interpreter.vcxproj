@@ -18,6 +18,15 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Interpreter.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Interfaces\AssembleCommandFactoryInterface.hpp" />
+    <ClInclude Include="Interfaces\AssembleCommandInterface.hpp" />
+    <ClInclude Include="Interfaces\AssembleCommandReaderInterface.hpp" />
+    <ClInclude Include="Interpreter.hpp" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <ProjectGuid>{4B376025-5994-403E-8673-56A1D794F569}</ProjectGuid>
@@ -142,40 +151,6 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClInclude Include="AssemblerCommandFactoryInterface.hpp" />
-    <ClInclude Include="AssemblerCommandInterface.hpp" />
-    <ClInclude Include="CommandScript\ArgumentType.hpp" />
-    <ClInclude Include="CommandScript\AssemblerCommandFactory.hpp" />
-    <ClInclude Include="CommandScript\AssemblerTranslator.hpp" />
-    <ClInclude Include="CommandScript\Commands\Command.hpp" />
-    <ClInclude Include="CommandScript\Commands\ConsoleCommand.hpp" />
-    <ClInclude Include="CommandScript\Commands\FileCommand.hpp" />
-    <ClInclude Include="CommandScript\Commands\LogicCommand.hpp" />
-    <ClInclude Include="CommandScript\Commands\MathCommand.hpp" />
-    <ClInclude Include="CommandScript\Commands\ProcessCommand.hpp" />
-    <ClInclude Include="Conversion.hpp" />
-    <ClInclude Include="Flags.hpp" />
-    <ClInclude Include="Interpreter.hpp" />
-    <ClInclude Include="Modules\PCB.hpp" />
-    <ClInclude Include="Modules\ProgramLoader.hpp" />
-    <ClInclude Include="Modules\RamMemory.hpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="AssemblerCommandInterface.cpp" />
-    <ClCompile Include="CommandScript\AssemblerCommandFactory.cpp" />
-    <ClCompile Include="CommandScript\AssemblerTranslator.cpp" />
-    <ClCompile Include="CommandScript\Commands\Command.cpp" />
-    <ClCompile Include="CommandScript\Commands\ConsoleCommand.cpp" />
-    <ClCompile Include="CommandScript\Commands\FileCommand.cpp" />
-    <ClCompile Include="CommandScript\Commands\LogicCommand.cpp" />
-    <ClCompile Include="CommandScript\Commands\MathCommand.cpp" />
-    <ClCompile Include="CommandScript\Commands\ProcessCommand.cpp" />
-    <ClCompile Include="Conversion.cpp" />
-    <ClCompile Include="Interpreter.cpp" />
-    <ClCompile Include="Modules\PCB.cpp" />
-    <ClCompile Include="Modules\RamMemory.cpp" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

@@ -13,108 +13,27 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Header Files\CommandScript">
-      <UniqueIdentifier>{e1a6730c-f98b-4c3c-a181-02ae2890cf2d}</UniqueIdentifier>
+    <Filter Include="Header Files\Interfaces">
+      <UniqueIdentifier>{e71d15d8-43d1-4ea4-897a-c0cc64b5d9ab}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\CommandScript\Commands">
-      <UniqueIdentifier>{8e01baef-35f0-49fa-92ae-1fdbf82fc35d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Modules">
-      <UniqueIdentifier>{581ce8ad-547a-4a4e-b32e-f441ccbeb610}</UniqueIdentifier>
-    </Filter>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="AssemblerCommandInterface.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Conversion.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Flags.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Interpreter.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CommandScript\ArgumentType.hpp">
-      <Filter>Header Files\CommandScript</Filter>
-    </ClInclude>
-    <ClInclude Include="CommandScript\AssemblerTranslator.hpp">
-      <Filter>Header Files\CommandScript</Filter>
-    </ClInclude>
-    <ClInclude Include="CommandScript\Commands\MathCommand.hpp">
-      <Filter>Header Files\CommandScript\Commands</Filter>
-    </ClInclude>
-    <ClInclude Include="CommandScript\Commands\ProcessCommand.hpp">
-      <Filter>Header Files\CommandScript\Commands</Filter>
-    </ClInclude>
-    <ClInclude Include="CommandScript\Commands\LogicCommand.hpp">
-      <Filter>Header Files\CommandScript\Commands</Filter>
-    </ClInclude>
-    <ClInclude Include="CommandScript\Commands\FileCommand.hpp">
-      <Filter>Header Files\CommandScript\Commands</Filter>
-    </ClInclude>
-    <ClInclude Include="CommandScript\Commands\ConsoleCommand.hpp">
-      <Filter>Header Files\CommandScript\Commands</Filter>
-    </ClInclude>
-    <ClInclude Include="CommandScript\Commands\Command.hpp">
-      <Filter>Header Files\CommandScript\Commands</Filter>
-    </ClInclude>
-    <ClInclude Include="AssemblerCommandFactoryInterface.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CommandScript\AssemblerCommandFactory.hpp">
-      <Filter>Header Files\CommandScript</Filter>
-    </ClInclude>
-    <ClInclude Include="Modules\PCB.hpp">
-      <Filter>Header Files\Modules</Filter>
-    </ClInclude>
-    <ClInclude Include="Modules\RamMemory.hpp">
-      <Filter>Header Files\Modules</Filter>
-    </ClInclude>
-    <ClInclude Include="Modules\ProgramLoader.hpp">
-      <Filter>Header Files\Modules</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Interpreter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Conversion.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CommandScript\AssemblerCommandFactory.cpp">
-      <Filter>Header Files\CommandScript</Filter>
-    </ClCompile>
-    <ClCompile Include="CommandScript\Commands\Command.cpp">
-      <Filter>Header Files\CommandScript\Commands</Filter>
-    </ClCompile>
-    <ClCompile Include="CommandScript\Commands\ConsoleCommand.cpp">
-      <Filter>Header Files\CommandScript\Commands</Filter>
-    </ClCompile>
-    <ClCompile Include="CommandScript\Commands\LogicCommand.cpp">
-      <Filter>Header Files\CommandScript\Commands</Filter>
-    </ClCompile>
-    <ClCompile Include="CommandScript\Commands\MathCommand.cpp">
-      <Filter>Header Files\CommandScript\Commands</Filter>
-    </ClCompile>
-    <ClCompile Include="AssemblerCommandInterface.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CommandScript\AssemblerTranslator.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Modules\RamMemory.cpp">
-      <Filter>Header Files\Modules</Filter>
-    </ClCompile>
-    <ClCompile Include="CommandScript\Commands\FileCommand.cpp">
-      <Filter>Header Files\CommandScript\Commands</Filter>
-    </ClCompile>
-    <ClCompile Include="Modules\PCB.cpp">
-      <Filter>Header Files\Modules</Filter>
-    </ClCompile>
-    <ClCompile Include="CommandScript\Commands\ProcessCommand.cpp">
-      <Filter>Header Files\CommandScript\Commands</Filter>
-    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Interpreter.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Interfaces\AssembleCommandInterface.hpp">
+      <Filter>Header Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="Interfaces\AssembleCommandFactoryInterface.hpp">
+      <Filter>Header Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="Interfaces\AssembleCommandReaderInterface.hpp">
+      <Filter>Header Files\Interfaces</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

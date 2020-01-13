@@ -18,35 +18,69 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="AssemblerCommandInterface.cpp" />
+    <ClCompile Include="CommandScript\AssemblerCommandFactory.cpp" />
+    <ClCompile Include="CommandScript\AssemblerTranslator.cpp" />
+    <ClCompile Include="CommandScript\Commands\Command.cpp" />
+    <ClCompile Include="CommandScript\Commands\ConsoleCommand.cpp" />
+    <ClCompile Include="CommandScript\Commands\FileCommand.cpp" />
+    <ClCompile Include="CommandScript\Commands\LogicCommand.cpp" />
+    <ClCompile Include="CommandScript\Commands\MathCommand.cpp" />
+    <ClCompile Include="CommandScript\Commands\ProcessCommand.cpp" />
+    <ClCompile Include="Conversion.cpp" />
+    <ClCompile Include="Interpreter.cpp" />
+    <ClCompile Include="Modules\PCB.cpp" />
+    <ClCompile Include="Modules\RamMemory.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="AssemblerCommandFactoryInterface.hpp" />
+    <ClInclude Include="AssemblerCommandInterface.hpp" />
+    <ClInclude Include="CommandScript\ArgumentType.hpp" />
+    <ClInclude Include="CommandScript\AssemblerCommandFactory.hpp" />
+    <ClInclude Include="CommandScript\AssemblerTranslator.hpp" />
+    <ClInclude Include="CommandScript\Commands\Command.hpp" />
+    <ClInclude Include="CommandScript\Commands\ConsoleCommand.hpp" />
+    <ClInclude Include="CommandScript\Commands\FileCommand.hpp" />
+    <ClInclude Include="CommandScript\Commands\LogicCommand.hpp" />
+    <ClInclude Include="CommandScript\Commands\MathCommand.hpp" />
+    <ClInclude Include="CommandScript\Commands\ProcessCommand.hpp" />
+    <ClInclude Include="Conversion.hpp" />
+    <ClInclude Include="Flags.hpp" />
+    <ClInclude Include="Interpreter.hpp" />
+    <ClInclude Include="Modules\PCB.hpp" />
+    <ClInclude Include="Modules\ProgramLoader.hpp" />
+    <ClInclude Include="Modules\RamMemory.hpp" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
-    <ProjectGuid>{3DE56345-6D4D-4910-A5D4-B02E869EF7A4}</ProjectGuid>
+    <ProjectGuid>{197F861F-6CCE-4872-A4A1-44F9BA9F4CF4}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>InterpreterTest</RootNamespace>
+    <RootNamespace>PcbInterpreter</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
@@ -70,10 +104,10 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -82,28 +116,24 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
   </PropertyGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
-      <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
-      <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -113,13 +143,11 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
-      <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -131,13 +159,11 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
-      <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -146,45 +172,6 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="ConsoleCommandCreator.cpp" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="NumberConversion.cpp" />
-    <ClCompile Include="PCB.cpp" />
-    <ClCompile Include="PcbArgumentType.cpp" />
-    <ClCompile Include="PcbCommandFactory.cpp" />
-    <ClCompile Include="PcbCommands.cpp" />
-    <ClCompile Include="RamMemory.cpp" />
-    <ClCompile Include="Shell.cpp" />
-    <ClCompile Include="ShellCommandFactory.cpp" />
-    <ClCompile Include="ShellCommands.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="dummy.txt" />
-    <Text Include="EqualTest.txt" />
-    <Text Include="memoryTest.txt" />
-    <Text Include="nwd.txt" />
-    <Text Include="out.txt" />
-    <Text Include="programTestowy.txt" />
-    <Text Include="Text.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="ConsoleCommandCreator.hpp" />
-    <ClInclude Include="NumberConversion.hpp" />
-    <ClInclude Include="PCB.hpp" />
-    <ClInclude Include="PcbArgumentType.hpp" />
-    <ClInclude Include="PcbCommandFactory.hpp" />
-    <ClInclude Include="PcbCommands.hpp" />
-    <ClInclude Include="RamMemory.hpp" />
-    <ClInclude Include="Shell.hpp" />
-    <ClInclude Include="ShellCommandFactory.hpp" />
-    <ClInclude Include="ShellCommands.hpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Interpreter\Interpreter.vcxproj">
-      <Project>{4b376025-5994-403e-8673-56a1d794f569}</Project>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

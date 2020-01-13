@@ -1,68 +1,27 @@
 #include "Interpreter.hpp"
-#include<iostream>
-#include<exception>
 
-
-Interpreter::Interpreter()
-{
-	commandFactory = std::make_unique<AssemblerCommandFactory>();
+Interpreter::Interpreter() {
+	commandFactory = nullptr;
+	commandReader = nullptr;
 }
 
-Interpreter::Interpreter(std::shared_ptr<PCB>& pcb_ptr) : Interpreter()
-{
-	this->pcb = pcb_ptr;
-}
-
-Interpreter::~Interpreter()
-{
-}
-
-int Interpreter::step()
-{
-	int result = 0;
-	std::string command = AssembleCommandInterface::loadWordFromPcb(pcb->instrucionCounter, pcb);
-	//for (char& i : command) { i = std::toupper(i); }
-	if(functionList.find(command)==functionList.end()){
-		bool isAdded = false;
+int Interpreter::step() {
+	std::string command = this->commandReader->getCommand();
+	if (this->functionList.find(command) == functionList.end()) {
 		if (Interpreter::commandFactory != nullptr) {
-			functionList[command] = commandFactory->addCommand(command); 
+			std::unique_ptr<AssembleCommandInterface> commandfunc = commandFactory->getCommand(command);
+			if (commandfunc != nullptr) {
+				functionList[command] = std::move(commandfunc);
+			}
+			else {
+				std::string message = "No command '" + command + "' in fabric";
+				throw std::exception(message.c_str());
+			}
 		}
-		if (functionList[command] == nullptr) {
-			throw std::exception{ std::string{"Cannot load function " + command + "\n"}.c_str() };
+		else {
+			throw std::exception("Fabric is null");
 		}
 	}
-	pcb->instrucionCounter = functionList[command]->doCommand(pcb, pcb->instrucionCounter + command.size() + 1);
-	return pcb->instrucionCounter;
-}
-
-int Interpreter::stepWithDebug()
-{
-	std::string command = AssembleCommandInterface::loadWordFromPcb(pcb->instrucionCounter, pcb);
-	std::cout << "Command: " << command << "\nDisplay: ";
-	int result = step();
-	//std::cout << "\nArguments: ";
-	std::cout << "\nRegisters:\n\tAX = " << static_cast<int>(pcb->getAX()) << "\n\t";
-	std::cout << "BX = " << static_cast<int>(pcb->getBX()) << "\n\t";
-	std::cout << "CX = " << static_cast<int>(pcb->getCX()) << "\n\t";
-	std::cout << "DX = " << static_cast<int>(pcb->getDX()) << "\n";
-	std::cout << "Flags:\n\tPF = " << Flags::getFlag(pcb->getFlags(), PF) << "\n\t";
-	std::cout << "LF = " << Flags::getFlag(pcb->getFlags(), LF) << "\n\t";
-	std::cout << "SF = " << Flags::getFlag(pcb->getFlags(), SF) << "\n\t";
-	std::cout << "CF = " << Flags::getFlag(pcb->getFlags(), CF) << "\n";
-	std::cout << "WF = " << Flags::getFlag(pcb->getFlags(), TF) << "\n";
-	std::cout << "Memory: ";
-	//pcb->printMemory();
-	std::cout << "\nNext adress: " << result << "\n";
-	if (result < pcb->getMemorySize()) {
-		std::cout << "Next command: " << AssembleCommandInterface::loadWordFromPcb(result, pcb) << "\n";
-	}
-	else {
-		std::cout << "No next command\n";
-	}
-	return result;
-}
-
-std::shared_ptr<PCB>& Interpreter::getPCB()
-{
-	return this->pcb;
+	commandReader->commandIndex = functionList[command]->doCommand(commandReader);
+	return commandReader->commandIndex;
 }
