@@ -1,11 +1,13 @@
 #include "Shell.hpp"
 #include<iostream>
 #include"ShellCommandFactory.hpp"
+#include"PcbCommandFactory.hpp"
 Shell::Shell()
 {
 	endShell = false;
 	debug = false;
 	pcbInterpreter = std::make_unique<Interpreter>();
+	pcbInterpreter->commandFactory = std::make_unique<PcbCommandFactory>();
 	shellInterpreter = std::make_unique<Interpreter>();
 	pcb = nullptr;
 	shellInterpreter->commandFactory = std::make_unique<ShellCommandFactory>();

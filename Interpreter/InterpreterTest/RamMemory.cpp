@@ -5,7 +5,7 @@
 RamMemory::RamMemory(int ram)
 {
 	memory.resize(ram, 0);
-	std::cout << memory.size();
+	//std::cout << memory.size();
 }
 
 char RamMemory::read(int index)

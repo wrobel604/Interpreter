@@ -5,7 +5,7 @@ PCB::PCB(std::string processName)
 {
 	programSize = commandIndex = 0;
 	Registers.AX = Registers.BX = Registers.CX = Registers.DX = Registers.Flag;
-	ram = std::make_shared<RamMemory>();
+	ram = std::make_shared<RamMemory>(512);
 	state = processState::ready;
 	std::string bufor;
 	std::ifstream in(processName+".txt");
@@ -50,9 +50,30 @@ int PCB::getMemorySize() const
 std::string PCB::getCommand()
 {
 	std::string result = "";
-	char sign;
+	char sign; bool spacebar = false;
 	while ((sign = readFromProgramMemory(commandIndex++)) != ' ') {
 		result += sign;
+		if (sign == '\'') {
+			while ((sign = readFromProgramMemory(commandIndex++)) != '\'') {
+				result += sign;
+			}
+			result += sign;
+		}
 	}
 	return result;
+}
+
+void PCB::Register::setFlag(char index, bool value)
+{
+	if (value) {
+		Flag |= index;
+	}
+	else {
+		Flag &= (~index);
+	}
+}
+
+bool PCB::Register::getFlag(char index)
+{
+	return (Flag & index)==index;
 }

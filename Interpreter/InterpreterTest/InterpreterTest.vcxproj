@@ -160,12 +160,14 @@
     <ClCompile Include="ShellCommands.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <Text Include="asci.txt" />
     <Text Include="dummy.txt" />
     <Text Include="EqualTest.txt" />
     <Text Include="memoryTest.txt" />
     <Text Include="nwd.txt" />
     <Text Include="out.txt" />
     <Text Include="programTestowy.txt" />
+    <Text Include="test.txt" />
     <Text Include="Text.txt" />
   </ItemGroup>
   <ItemGroup>

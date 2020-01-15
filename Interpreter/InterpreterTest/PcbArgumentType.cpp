@@ -38,7 +38,7 @@ PcbArgumentType::PcbArgumentType(std::shared_ptr<PCB>& Pcb, std::string argument
 		}
 		else if (argument[1] == 'F') {
 			type = Type::Flag;
-			value = pcb->Registers.Flag & CF;
+			value = (pcb->Registers.Flag & CF) == CF;
 		}
 	}break;
 	case 'D': {
@@ -47,34 +47,60 @@ PcbArgumentType::PcbArgumentType(std::shared_ptr<PCB>& Pcb, std::string argument
 	}break;
 	case 'P': {
 		type = Type::Flag;
-		value = pcb->Registers.Flag & PF; 
+		value = (pcb->Registers.Flag & PF)  == PF; 
 	}break;
 	case 'L': {
 		type = Type::Flag;
-		value = pcb->Registers.Flag & LF; 
+		value = (pcb->Registers.Flag & LF) == LF; 
 	}break;
 	case 'S': {
 		type = Type::Flag;
-		value = pcb->Registers.Flag & SF; 
+		value = (pcb->Registers.Flag & SF) == SF; 
 	}break;
 	case 'T': {
 		type = Type::Flag;
-		value = pcb->Registers.Flag & TF; 
+		value = (pcb->Registers.Flag & TF) == TF; 
 	}break;
 	case '0': {
 		type = Type::Value;
 		switch (argument[1])
 		{
-		case 'b': value = NumberConversion::BinToDec(argument.substr(2)); break;
-		case 'o': value = NumberConversion::BinToDec(argument.substr(2)); break;
-		case 'x': value = NumberConversion::BinToDec(argument.substr(2)); break;
+		case 'b': value = NumberConversion::BinToDec(argument.substr(2)); return;
+		case 'o': value = NumberConversion::OctToDec(argument.substr(2)); return;
+		case 'x': value = NumberConversion::HexToDec(argument.substr(2)); return;
 		default:
-			value = atoi(argument.c_str());
 			break;
 		}
 	}
 	default:
-		
+		value = atoi(argument.c_str());
 		break;
 	}
+}
+
+void PcbArgumentType::write(char val)
+{
+	switch (type)
+	{
+	case Type::AX: pcb->Registers.AX= val; break;
+	case Type::BX: pcb->Registers.BX= val; break;
+	case Type::CX: pcb->Registers.CX= val; break;
+	case Type::DX: pcb->Registers.DX= val; break;
+	case Type::CodePtr:pcb->writeInProgramMemory(value, val); break;
+	case Type::Ptr:pcb->writeInDataMemory(value, val); break;
+	default:
+		break;
+	}
+}
+
+char PcbArgumentType::read() const
+{
+	switch (type)
+	{
+	case Type::Ptr: return pcb->readFromDataMemory(value);
+	case Type::CodePtr: return pcb->readFromProgramMemory(value);
+	default:
+		break;
+	}
+	return value;
 }

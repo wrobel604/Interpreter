@@ -19,6 +19,7 @@ public:
 	void getCommand();
 	void doCommand();
 
+
 	bool isEndShell() const;
 };
 

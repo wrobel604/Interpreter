@@ -41,4 +41,8 @@ class ExitShell : public AssembleCommandInterface {
 public:
 	virtual int doCommand(std::shared_ptr<AssembleCommandReaderInterface>& reader) override;
 };
+class StepIndex : public AssembleCommandInterface {
+public:
+	virtual int doCommand(std::shared_ptr<AssembleCommandReaderInterface>& reader) override;
+};
 

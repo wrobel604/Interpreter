@@ -1,12 +1,11 @@
 SET [0] 'H'
-SET [1] 'e'
-CRF 'a'
-OPF 'a'
-APF 'a' [0]
-APF 'a' [1]
-RDF 'a' 0
-OUT BX
-RDF 'a' 1
-OUT BX
-CLF 'a'
+SET [1] 'E'
+SET [2] 'L'
+SET [3] 'L'
+SET [4] 'O'
+OUT [0]
+OUT [1]
+OUT [2]
+OUT [3]
+OUT [4]
 END

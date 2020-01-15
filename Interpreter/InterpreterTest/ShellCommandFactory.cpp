@@ -33,5 +33,8 @@ std::unique_ptr<AssembleCommandInterface> ShellCommandFactory::getCommand(std::s
 	if(commandname == "help"){
 		return std::make_unique<HelpPrint>();
 	}
+	if(commandname == "pos"){
+		return std::make_unique<StepIndex>();
+	}
 	return nullptr;
 }

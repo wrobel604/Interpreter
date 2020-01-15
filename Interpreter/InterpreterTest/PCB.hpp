@@ -6,6 +6,11 @@
 class PCB : public AssembleCommandReaderInterface
 {
 public:
+	struct Register{
+		char AX=0, BX=0, CX=0, DX=0, Flag=0;
+		void setFlag(char index, bool value);
+		bool getFlag(char index);
+	};
 	enum class processState : char {
 		active, waiting, ready, terminated
 	};
@@ -13,9 +18,7 @@ private:
 	std::shared_ptr<RamMemory> ram;
 	int programSize;
 public:
-	struct {
-		char AX, BX, CX, DX, Flag;
-	} Registers;
+	Register Registers;
 	processState state;
 
 	PCB(std::string processName);

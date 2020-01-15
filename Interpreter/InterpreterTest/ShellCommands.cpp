@@ -2,6 +2,7 @@
 #include"Shell.hpp"
 #include<iostream>
 #include<iomanip>
+#include"PcbArgumentType.hpp"
 
 int CreateProcess::doCommand(std::shared_ptr<AssembleCommandReaderInterface>& reader)
 {
@@ -62,16 +63,30 @@ int StepProcess::doCommand(std::shared_ptr<AssembleCommandReaderInterface>& read
 	std::shared_ptr<ConsoleCommandCreator> ccc = std::dynamic_pointer_cast<ConsoleCommandCreator>(reader);
 	Shell* shell = (Shell*)ccc->object;
 	if (shell->pcbInterpreter->commandReader != nullptr) {
-		return shell->pcbInterpreter->step();
+		shell->pcbInterpreter->step();
 	}
 	else {
 		if (shell->pcb != nullptr) {
 			shell->pcb->state = PCB::processState::active;
 			shell->pcbInterpreter->commandReader = std::move(shell->pcb);
-			return shell->pcbInterpreter->step();
+			shell->pcbInterpreter->step();
 		}
 		else {
 			throw std::exception("No process to do (dummy process should do now)");
+		}
+	}
+	if (shell->pcbInterpreter->commandReader != nullptr) {
+		std::shared_ptr<AssembleCommandReaderInterface> waitpcb;
+		switch (std::dynamic_pointer_cast<PCB>(shell->pcbInterpreter->commandReader)->state)
+		{
+		case PCB::processState::terminated:shell->pcbInterpreter->commandReader = std::move(shell->pcb); break;
+		case PCB::processState::waiting:
+			waitpcb = shell->pcbInterpreter->commandReader;
+			shell->pcbInterpreter->commandReader = std::move(shell->pcb);
+			shell->pcb = std::dynamic_pointer_cast<PCB>(waitpcb);
+			break;
+		default:
+			break;
 		}
 	}
 	return 0;
@@ -84,7 +99,7 @@ int StepAllProcess::doCommand(std::shared_ptr<AssembleCommandReaderInterface>& r
 	StepProcess step;
 	do {
 		step.doCommand(reader);
-	} while (std::dynamic_pointer_cast<PCB>(shell->pcbInterpreter->commandReader)->state == PCB::processState::active);
+	} while (shell->pcbInterpreter->commandReader != nullptr && std::dynamic_pointer_cast<PCB>(shell->pcbInterpreter->commandReader)->state == PCB::processState::active);
 	return 0;
 }
 
@@ -112,9 +127,10 @@ int ChangeMemory::doCommand(std::shared_ptr<AssembleCommandReaderInterface>& rea
 	Shell* shell = (Shell*)ccc->object;
 	std::string adrr = reader->getCommand();
 	std::string val = reader->getCommand();
-	char value = 'x';
-	int adress = 0;
-	//konwersja
+	if (shell->pcbInterpreter->commandReader == nullptr) { throw std::exception{"No active process in memory"}; }
+	std::shared_ptr<PCB> pcb = std::dynamic_pointer_cast<PCB>(shell->pcbInterpreter->commandReader);
+	char value = PcbArgumentType{ pcb, val }.read();
+	int adress = std::atoi(adrr.c_str());
 	std::dynamic_pointer_cast<PCB>(shell->pcbInterpreter->commandReader)->writeInDataMemory(adress, value);
 	return 0;
 }
@@ -125,16 +141,17 @@ int RegistersPrint::doCommand(std::shared_ptr<AssembleCommandReaderInterface>& r
 	Shell* shell = (Shell*)ccc->object;
 	std::shared_ptr<PCB> pcb = std::dynamic_pointer_cast<PCB>(shell->pcbInterpreter->commandReader);
 	if (pcb != nullptr) {
-		std::cout << "AX = " << pcb->Registers.AX << "\n";
-		std::cout << "BX = " << pcb->Registers.BX << "\n";
-		std::cout << "CX = " << pcb->Registers.CX << "\n";
-		std::cout << "DX = " << pcb->Registers.DX << "\n";
+		std::cout << "AX = " << (int)pcb->Registers.AX <<"(" << pcb->Registers.AX << ")\n";
+		std::cout << "BX = " << (int)pcb->Registers.BX << "(" << pcb->Registers.BX << ")\n";
+		std::cout << "CX = " << (int)pcb->Registers.CX << "(" << pcb->Registers.CX << ")\n";
+		std::cout << "DX = " << (int)pcb->Registers.DX << "(" << pcb->Registers.DX << ")\n";
 		std::cout << "FFFFFFFF" << std::endl;
 		char flag = pcb->Registers.Flag;
 		for (int i = 0; i < 8; ++i) {
 			std::cout << (flag & 1);
 			flag >>= 1;
 		}
+		std::cout << std::endl;
 	}
 	else {
 		std::cout << "No active process\n";
@@ -158,10 +175,20 @@ int HelpPrint::doCommand(std::shared_ptr<AssembleCommandReaderInterface>& reader
 	std::cout <<std::setw(20) << "kill" <<" - usuwa aktywny proces" << std::endl;
 	std::cout << std::setw(20) << "step" <<" - wykonuje pojedyncza instrukcje aktywnego procesu"  << std::endl;
 	std::cout << std::setw(20) << "steps" << " - wykonuje instrukcje aktywnego procesu do jego zakonczenia lub zatrzymania " << std::endl;
+	std::cout << std::setw(20) << "pos" << " -  wyswietla polozenie instrukcji" << std::endl;
 	std::cout << std::setw(20) << "memory" <<" - wyswietle zawartosc pamieci aktywnego procesu" << std::endl;
 	std::cout << std::setw(20) << "set adress value" <<" - zmienia zawartosc komorki pamieci" << std::endl;
 	std::cout << std::setw(20) << "registers" <<" - wyswietla rejestry aktywnego procesu" << std::endl;
 	std::cout << std::setw(20) << "debug on/off" <<" - wlacza/wylacza tryb debugowania" << std::endl;
 	std::cout << std::setw(20) << "exit" <<" - zamyka konsole" << std::endl;
+	return 0;
+}
+
+int StepIndex::doCommand(std::shared_ptr<AssembleCommandReaderInterface>& reader)
+{
+	std::shared_ptr<ConsoleCommandCreator> ccc = std::dynamic_pointer_cast<ConsoleCommandCreator>(reader);
+	Shell* shell = (Shell*)ccc->object;
+	if (shell->pcbInterpreter->commandReader == nullptr) { throw std::exception{"No active process"}; }
+	std::cout << shell->pcbInterpreter->commandReader->commandIndex <<std::endl;
 	return 0;
 }

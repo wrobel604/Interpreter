@@ -22,5 +22,8 @@ struct PcbArgumentType
 	std::shared_ptr<PCB> pcb;
 
 	PcbArgumentType(std::shared_ptr<PCB>& Pcb, std::string argument);
+
+	void write(char value);
+	char read() const;
 };
 
