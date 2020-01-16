@@ -60,7 +60,13 @@ std::unique_ptr<AssembleCommandInterface> PcbCommandFactory::getCommand(std::str
 	if (commandname == "LSS") {
 		return std::make_unique<Less>();
 	}
+	if (commandname == "LSE") {
+		return std::make_unique<Less>();
+	}
 	if (commandname == "MOR") {
+		return std::make_unique<More>();
+	}
+	if (commandname == "MRE") {
 		return std::make_unique<More>();
 	}
 	if (commandname == "JMP") {

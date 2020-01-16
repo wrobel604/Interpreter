@@ -3,6 +3,14 @@
 #include"PcbArgumentType.hpp"
 #include<iostream>
 
+void setResultFlag(int value, std::shared_ptr<PCB>& pcb) {
+	pcb->Registers.setFlag(PF, value & 1);
+	pcb->Registers.setFlag(LF, value);
+	pcb->Registers.setFlag(SF, static_cast<char>(value)<0);
+	pcb->Registers.setFlag(CF, value < -128 || value>127);
+	pcb->Registers.setFlag(ZF, value==0);
+}
+
 int ConsoleWriteLetter::doCommand(std::shared_ptr<AssembleCommandReaderInterface>& reader)
 {
 	std::shared_ptr<PCB> pcb = std::dynamic_pointer_cast<PCB>(reader);
@@ -40,7 +48,9 @@ int Addition::doCommand(std::shared_ptr<AssembleCommandReaderInterface>& reader)
 {
 	std::shared_ptr<PCB> pcb = std::dynamic_pointer_cast<PCB>(reader);
 	PcbArgumentType a{ pcb, pcb->getCommand() }, b{ pcb, pcb->getCommand() };
-	pcb->Registers.DX = a.read() + b.read();
+	int result = a.read() + b.read();
+	pcb->Registers.DX = result;
+	setResultFlag(result, pcb);
 	return pcb->commandIndex;
 }
 
@@ -48,7 +58,9 @@ int Subtraction::doCommand(std::shared_ptr<AssembleCommandReaderInterface>& read
 {
 	std::shared_ptr<PCB> pcb = std::dynamic_pointer_cast<PCB>(reader);
 	PcbArgumentType a{ pcb, pcb->getCommand() }, b{ pcb, pcb->getCommand() };
-	pcb->Registers.DX = a.read() - b.read();
+	int result = a.read() - b.read();
+	pcb->Registers.DX = result;
+	setResultFlag(result, pcb);
 	return pcb->commandIndex;
 }
 
@@ -56,7 +68,9 @@ int Multiplication::doCommand(std::shared_ptr<AssembleCommandReaderInterface>& r
 {
 	std::shared_ptr<PCB> pcb = std::dynamic_pointer_cast<PCB>(reader);
 	PcbArgumentType a{ pcb, pcb->getCommand() }, b{ pcb, pcb->getCommand() };
-	pcb->Registers.DX = a.read() * b.read();
+	int result = a.read() * b.read();
+	pcb->Registers.DX = result;
+	setResultFlag(result, pcb);
 	return pcb->commandIndex;
 }
 
@@ -64,7 +78,9 @@ int Division::doCommand(std::shared_ptr<AssembleCommandReaderInterface>& reader)
 {
 	std::shared_ptr<PCB> pcb = std::dynamic_pointer_cast<PCB>(reader);
 	PcbArgumentType a{ pcb, pcb->getCommand() }, b{ pcb, pcb->getCommand() };
-	pcb->Registers.DX = a.read() / b.read();
+	int result = a.read() / b.read();
+	pcb->Registers.DX = result;
+	setResultFlag(result, pcb);
 	return pcb->commandIndex;
 }
 
@@ -72,7 +88,9 @@ int Modulo::doCommand(std::shared_ptr<AssembleCommandReaderInterface>& reader)
 {
 	std::shared_ptr<PCB> pcb = std::dynamic_pointer_cast<PCB>(reader);
 	PcbArgumentType a{ pcb, pcb->getCommand() }, b{ pcb, pcb->getCommand() };
-	pcb->Registers.DX = a.read() % b.read();
+	int result = a.read() % b.read();
+	pcb->Registers.DX = result;
+	setResultFlag(result, pcb);
 	return pcb->commandIndex;
 }
 
@@ -80,8 +98,9 @@ int Decrementation::doCommand(std::shared_ptr<AssembleCommandReaderInterface>& r
 {
 	std::shared_ptr<PCB> pcb = std::dynamic_pointer_cast<PCB>(reader);
 	PcbArgumentType a{ pcb, pcb->getCommand() };
-	int value = a.read() - 1;
-	a.write(value);
+	int result = a.read() - 1;
+	setResultFlag(result, pcb);
+	a.write(result);
 	return pcb->commandIndex;
 }
 
@@ -89,8 +108,9 @@ int Incrementation::doCommand(std::shared_ptr<AssembleCommandReaderInterface>& r
 {
 	std::shared_ptr<PCB> pcb = std::dynamic_pointer_cast<PCB>(reader);
 	PcbArgumentType a{ pcb, pcb->getCommand() };
-	int value = a.read() + 1;
-	a.write(value);
+	int result = a.read() + 1;
+	setResultFlag(result, pcb);
+	a.write(result);
 	return pcb->commandIndex;
 }
 
@@ -98,7 +118,9 @@ int And::doCommand(std::shared_ptr<AssembleCommandReaderInterface>& reader)
 {
 	std::shared_ptr<PCB> pcb = std::dynamic_pointer_cast<PCB>(reader);
 	PcbArgumentType a{ pcb, pcb->getCommand() }, b{ pcb, pcb->getCommand() };
-	pcb->Registers.DX = a.read() & b.read();
+	int result = a.read() & b.read();
+	pcb->Registers.DX = result;
+	setResultFlag(result, pcb);
 	return pcb->commandIndex;
 }
 
@@ -106,7 +128,9 @@ int Or::doCommand(std::shared_ptr<AssembleCommandReaderInterface>& reader)
 {
 	std::shared_ptr<PCB> pcb = std::dynamic_pointer_cast<PCB>(reader);
 	PcbArgumentType a{ pcb, pcb->getCommand() }, b{ pcb, pcb->getCommand() };
-	pcb->Registers.DX = a.read() | b.read();
+	int result = a.read() | b.read();
+	pcb->Registers.DX = result;
+	setResultFlag(result, pcb);
 	return pcb->commandIndex;
 }
 
@@ -114,7 +138,9 @@ int Xor::doCommand(std::shared_ptr<AssembleCommandReaderInterface>& reader)
 {
 	std::shared_ptr<PCB> pcb = std::dynamic_pointer_cast<PCB>(reader);
 	PcbArgumentType a{ pcb, pcb->getCommand() }, b{ pcb, pcb->getCommand() };
-	pcb->Registers.DX = a.read() ^ b.read();
+	int result = a.read() ^ b.read();
+	pcb->Registers.DX = result;
+	setResultFlag(result, pcb);
 	return pcb->commandIndex;
 }
 
@@ -122,8 +148,9 @@ int Not::doCommand(std::shared_ptr<AssembleCommandReaderInterface>& reader)
 {
 	std::shared_ptr<PCB> pcb = std::dynamic_pointer_cast<PCB>(reader);
 	PcbArgumentType a{ pcb, pcb->getCommand() };
-	int value = ~a.read();
-	a.write(value);
+	int result = ~a.read();
+	a.write(result);
+	setResultFlag(result, pcb);
 	return pcb->commandIndex;
 }
 
@@ -131,7 +158,9 @@ int LeftBitMove::doCommand(std::shared_ptr<AssembleCommandReaderInterface>& read
 {
 	std::shared_ptr<PCB> pcb = std::dynamic_pointer_cast<PCB>(reader);
 	PcbArgumentType a{ pcb, pcb->getCommand() }, b{ pcb, pcb->getCommand() };
-	pcb->Registers.DX = a.read() << b.read();
+	int result = a.read() << b.read();
+	pcb->Registers.DX = result;
+	setResultFlag(result, pcb);
 	return pcb->commandIndex;
 }
 
@@ -139,7 +168,9 @@ int RightBitMove::doCommand(std::shared_ptr<AssembleCommandReaderInterface>& rea
 {
 	std::shared_ptr<PCB> pcb = std::dynamic_pointer_cast<PCB>(reader);
 	PcbArgumentType a{ pcb, pcb->getCommand() }, b{ pcb, pcb->getCommand() };
-	pcb->Registers.DX = a.read() >> b.read();
+	int result = a.read() >> b.read();
+	pcb->Registers.DX = result;
+	setResultFlag(result, pcb);
 	return pcb->commandIndex;
 }
 
@@ -179,4 +210,20 @@ int JumpIfFalse::doCommand(std::shared_ptr<AssembleCommandReaderInterface>& read
 	std::shared_ptr<PCB> pcb = std::dynamic_pointer_cast<PCB>(reader);
 	PcbArgumentType adr{ pcb, pcb->getCommand() };
 	return (!pcb->Registers.getFlag(LF)) ? adr.read() : pcb->commandIndex;
+}
+
+int LessOrEqual::doCommand(std::shared_ptr<AssembleCommandReaderInterface>& reader)
+{
+	std::shared_ptr<PCB> pcb = std::dynamic_pointer_cast<PCB>(reader);
+	PcbArgumentType a{ pcb, pcb->getCommand() }, b{ pcb, pcb->getCommand() };
+	pcb->Registers.setFlag(LF, a.read() <= b.read());
+	return pcb->commandIndex;
+}
+
+int MoreOrEqual::doCommand(std::shared_ptr<AssembleCommandReaderInterface>& reader)
+{
+	std::shared_ptr<PCB> pcb = std::dynamic_pointer_cast<PCB>(reader);
+	PcbArgumentType a{ pcb, pcb->getCommand() }, b{ pcb, pcb->getCommand() };
+	pcb->Registers.setFlag(LF, a.read() >= b.read());
+	return pcb->commandIndex;
 }

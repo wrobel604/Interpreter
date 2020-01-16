@@ -57,9 +57,9 @@ PcbArgumentType::PcbArgumentType(std::shared_ptr<PCB>& Pcb, std::string argument
 		type = Type::Flag;
 		value = (pcb->Registers.Flag & SF) == SF; 
 	}break;
-	case 'T': {
+	case 'Z': {
 		type = Type::Flag;
-		value = (pcb->Registers.Flag & TF) == TF; 
+		value = (pcb->Registers.Flag & ZF) == ZF; 
 	}break;
 	case '0': {
 		type = Type::Value;

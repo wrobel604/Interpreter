@@ -5,7 +5,7 @@
 #define LF 1<<1
 #define SF 1<<2
 #define CF 1<<3
-#define TF 1<<4
+#define ZF 1<<4
 
 struct PcbArgumentType
 {

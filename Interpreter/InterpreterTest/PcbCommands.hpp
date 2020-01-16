@@ -122,6 +122,18 @@ public:
 	// Inherited via AssembleCommandInterface
 	virtual int doCommand(std::shared_ptr<AssembleCommandReaderInterface>& reader) override;
 };
+class LessOrEqual : public AssembleCommandInterface {
+public:
+
+	// Inherited via AssembleCommandInterface
+	virtual int doCommand(std::shared_ptr<AssembleCommandReaderInterface>& reader) override;
+};
+class MoreOrEqual : public AssembleCommandInterface {
+public:
+
+	// Inherited via AssembleCommandInterface
+	virtual int doCommand(std::shared_ptr<AssembleCommandReaderInterface>& reader) override;
+};
 class JumpIfTrue : public AssembleCommandInterface {
 public:
 

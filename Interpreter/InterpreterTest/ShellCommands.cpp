@@ -60,20 +60,32 @@ int KillProcess::doCommand(std::shared_ptr<AssembleCommandReaderInterface>& read
 
 int StepProcess::doCommand(std::shared_ptr<AssembleCommandReaderInterface>& reader)
 {
+	int start, end;
 	std::shared_ptr<ConsoleCommandCreator> ccc = std::dynamic_pointer_cast<ConsoleCommandCreator>(reader);
 	Shell* shell = (Shell*)ccc->object;
 	if (shell->pcbInterpreter->commandReader != nullptr) {
-		shell->pcbInterpreter->step();
+		start = shell->pcbInterpreter->commandReader->commandIndex;
+		end = shell->pcbInterpreter->step();
 	}
 	else {
 		if (shell->pcb != nullptr) {
 			shell->pcb->state = PCB::processState::active;
 			shell->pcbInterpreter->commandReader = std::move(shell->pcb);
-			shell->pcbInterpreter->step();
+			start = shell->pcbInterpreter->commandReader->commandIndex;
+			end = shell->pcbInterpreter->step();
 		}
 		else {
 			throw std::exception("No process to do (dummy process should do now)");
 		}
+	}
+	if (shell->debug) {
+		shell->pcbInterpreter->commandReader->commandIndex = start;
+		std::cout << std::endl <<"Command: " << shell->pcbInterpreter->commandReader->getCommand() <<std::endl <<"Arguments: ";
+		while (shell->pcbInterpreter->commandReader->commandIndex < end) {
+			std::cout << shell->pcbInterpreter->commandReader->getCommand() <<" ";
+		}
+		std::cout<<std::endl;
+		RegistersPrint r; r.doCommand(reader);
 	}
 	if (shell->pcbInterpreter->commandReader != nullptr) {
 		std::shared_ptr<AssembleCommandReaderInterface> waitpcb;
@@ -145,7 +157,7 @@ int RegistersPrint::doCommand(std::shared_ptr<AssembleCommandReaderInterface>& r
 		std::cout << "BX = " << (int)pcb->Registers.BX << "(" << pcb->Registers.BX << ")\n";
 		std::cout << "CX = " << (int)pcb->Registers.CX << "(" << pcb->Registers.CX << ")\n";
 		std::cout << "DX = " << (int)pcb->Registers.DX << "(" << pcb->Registers.DX << ")\n";
-		std::cout << "FFFFFFFF" << std::endl;
+		std::cout << "PLSCZ---" << std::endl;
 		char flag = pcb->Registers.Flag;
 		for (int i = 0; i < 8; ++i) {
 			std::cout << (flag & 1);
