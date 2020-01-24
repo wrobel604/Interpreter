@@ -1,0 +1,9 @@
+OPF 'b'
+WCF 'b' 'H' 
+WCF 'b' 'e' 
+WCF 'b' 'l' 
+WCF 'b' 'l' 
+WCF 'b' 'o' 
+RSF 'b' 5 0
+CLF 'b'
+END

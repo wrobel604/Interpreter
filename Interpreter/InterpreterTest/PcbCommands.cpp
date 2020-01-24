@@ -227,3 +227,118 @@ int MoreOrEqual::doCommand(std::shared_ptr<AssembleCommandReaderInterface>& read
 	pcb->Registers.setFlag(LF, a.read() >= b.read());
 	return pcb->commandIndex;
 }
+
+int OpenFile::doCommand(std::shared_ptr<AssembleCommandReaderInterface>& reader)
+{
+	std::shared_ptr<PCB> pcb = std::dynamic_pointer_cast<PCB>(reader);
+	PcbArgumentType filename{ pcb, pcb->getCommand() };
+	if (!pcb->file.open(std::string{ filename.read() })) { pcb->state = PCB::processState::waiting; }
+	return pcb->commandIndex;
+}
+
+int CloseFile::doCommand(std::shared_ptr<AssembleCommandReaderInterface>& reader)
+{
+	std::shared_ptr<PCB> pcb = std::dynamic_pointer_cast<PCB>(reader);
+	PcbArgumentType filename{ pcb, pcb->getCommand() };
+	pcb->file.close();
+	return pcb->commandIndex;
+}
+
+int ReadCharFile::doCommand(std::shared_ptr<AssembleCommandReaderInterface>& reader)
+{
+	std::shared_ptr<PCB> pcb = std::dynamic_pointer_cast<PCB>(reader);
+	PcbArgumentType filename{ pcb, pcb->getCommand() };
+	if (pcb->file.isOpen()) {
+		std::string result = pcb->file.read(1);
+		if (result.size() > 0) {
+			pcb->Registers.BX = result[0];
+		}
+		pcb->Registers.setFlag(LF, true);
+	}
+	else { pcb->Registers.setFlag(LF, false); }
+	return pcb->commandIndex;
+}
+
+int ReadCharsFile::doCommand(std::shared_ptr<AssembleCommandReaderInterface>& reader)
+{
+	std::shared_ptr<PCB> pcb = std::dynamic_pointer_cast<PCB>(reader);
+	PcbArgumentType filename{ pcb, pcb->getCommand() }, count{ pcb, pcb->getCommand() }, mem_index{ pcb, pcb->getCommand() };
+	if (pcb->file.isOpen()) {
+		std::string result = pcb->file.read(count.read());
+		if (result.size() > 0) {
+			int size = result.size();
+			for (int i = 0; i < size; ++i) {
+				pcb->writeInDataMemory(mem_index.read() + i, result[i]);
+			}
+		}
+		pcb->Registers.setFlag(LF, true);
+	}
+	else { pcb->Registers.setFlag(LF, false); }
+	return pcb->commandIndex;
+}
+
+int WriteCharFile::doCommand(std::shared_ptr<AssembleCommandReaderInterface>& reader)
+{
+	std::shared_ptr<PCB> pcb = std::dynamic_pointer_cast<PCB>(reader);
+	PcbArgumentType filename{ pcb, pcb->getCommand() }, value{ pcb, pcb->getCommand() };
+	if (pcb->file.isOpen()) {
+		pcb->file.write(std::string{ value.read() });
+		pcb->Registers.setFlag(LF, true);
+	}
+	else { pcb->Registers.setFlag(LF, false); }
+	pcb->Registers.BX = pcb->file.getPosition();
+	return pcb->commandIndex;
+}
+
+int WriteCharsFile::doCommand(std::shared_ptr<AssembleCommandReaderInterface>& reader)
+{
+	std::shared_ptr<PCB> pcb = std::dynamic_pointer_cast<PCB>(reader);
+	PcbArgumentType filename{ pcb, pcb->getCommand() }, count{ pcb, pcb->getCommand() }, mem_index{ pcb, pcb->getCommand() };
+	if (pcb->file.isOpen()) {
+		int size = count.read(), pos = mem_index.read();
+		std::string text = "";
+		for (int i = 0; i < size; ++i) {
+			text += pcb->readFromDataMemory(pos + i);
+		}
+		pcb->file.write(text);
+		pcb->Registers.BX = pcb->file.getPosition();
+		pcb->Registers.setFlag(LF, true);
+	}
+	else { pcb->Registers.setFlag(LF, false); }
+	return pcb->commandIndex;
+}
+
+int GetPositionFile::doCommand(std::shared_ptr<AssembleCommandReaderInterface>& reader)
+{
+	std::shared_ptr<PCB> pcb = std::dynamic_pointer_cast<PCB>(reader);
+	PcbArgumentType filename{ pcb, pcb->getCommand() };
+	if (pcb->file.isOpen()) {
+		pcb->Registers.BX = pcb->file.getPosition();
+		pcb->Registers.setFlag(LF, true);
+	}
+	else { pcb->Registers.setFlag(LF, false); }
+	return pcb->commandIndex;
+}
+
+int SetPositionFile::doCommand(std::shared_ptr<AssembleCommandReaderInterface>& reader)
+{
+	std::shared_ptr<PCB> pcb = std::dynamic_pointer_cast<PCB>(reader);
+	PcbArgumentType filename{ pcb, pcb->getCommand() }, value{ pcb, pcb->getCommand() };
+	if (pcb->file.isOpen()) {
+		pcb->file.setPosition(value.read());
+		pcb->Registers.setFlag(LF, true);
+	}
+	else { pcb->Registers.setFlag(LF, false); }
+	return pcb->commandIndex;
+}
+
+int CreateFile::doCommand(std::shared_ptr<AssembleCommandReaderInterface>& reader)
+{
+	std::shared_ptr<PCB> pcb = std::dynamic_pointer_cast<PCB>(reader);
+	PcbArgumentType filename{ pcb, pcb->getCommand() }, value{ pcb, pcb->getCommand() };
+	if (!pcb->file.isFileExist(std::string{ filename.read() })) {
+		pcb->Registers.setFlag(LF, pcb->file.createFile(std::string{ filename.read() }));
+	}
+	else { pcb->Registers.setFlag(LF, false); }
+	return pcb->commandIndex;
+}

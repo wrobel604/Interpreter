@@ -51,6 +51,9 @@
     <ClCompile Include="NumberConversion.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="FileManager.cpp">
+      <Filter>Modules</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="out.txt" />
@@ -62,6 +65,7 @@
     <Text Include="dummy.txt" />
     <Text Include="asci.txt" />
     <Text Include="test.txt" />
+    <Text Include="file.txt" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Shell.hpp">
@@ -93,6 +97,9 @@
     </ClInclude>
     <ClInclude Include="NumberConversion.hpp">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FileManager.hpp">
+      <Filter>Modules</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

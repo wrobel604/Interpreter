@@ -2,6 +2,7 @@
 #include"../Interpreter/Interfaces/AssembleCommandReaderInterface.hpp"
 #include"RamMemory.hpp"
 #include<memory>
+#include"FileManager.hpp"
 
 class PCB : public AssembleCommandReaderInterface
 {
@@ -20,6 +21,7 @@ private:
 public:
 	Register Registers;
 	processState state;
+	FileManager file;
 
 	PCB(std::string processName);
 

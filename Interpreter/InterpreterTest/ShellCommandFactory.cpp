@@ -36,5 +36,14 @@ std::unique_ptr<AssembleCommandInterface> ShellCommandFactory::getCommand(std::s
 	if(commandname == "pos"){
 		return std::make_unique<StepIndex>();
 	}
+	if(commandname == "pos"){
+		return std::make_unique<StepIndex>();
+	}
+	if(commandname == "pos"){
+		return std::make_unique<StepIndex>();
+	}
+	if(commandname == "file"){
+		return std::make_unique<FileCommander>();
+	}
 	return nullptr;
 }

@@ -1,5 +1,6 @@
 #pragma once
 #include"../Interpreter/Interfaces/AssembleCommandInterface.hpp"
+#include"FileManager.hpp"
 
 class CreateProcess : public AssembleCommandInterface {
 public:
@@ -45,4 +46,12 @@ class StepIndex : public AssembleCommandInterface {
 public:
 	virtual int doCommand(std::shared_ptr<AssembleCommandReaderInterface>& reader) override;
 };
+class FileCommander : public AssembleCommandInterface {
+public:
+	virtual int doCommand(std::shared_ptr<AssembleCommandReaderInterface>& reader) override;
 
+	void read(std::shared_ptr<AssembleCommandReaderInterface>& reader, FileManager& file);
+	void write(std::shared_ptr<AssembleCommandReaderInterface>& reader, FileManager& file);
+	void size(FileManager& file);
+	void append(std::shared_ptr<AssembleCommandReaderInterface>& reader, FileManager& file);
+};

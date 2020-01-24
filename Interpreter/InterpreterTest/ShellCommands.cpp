@@ -2,6 +2,7 @@
 #include"Shell.hpp"
 #include<iostream>
 #include<iomanip>
+#include<string>
 #include"PcbArgumentType.hpp"
 
 int CreateProcess::doCommand(std::shared_ptr<AssembleCommandReaderInterface>& reader)
@@ -193,6 +194,7 @@ int HelpPrint::doCommand(std::shared_ptr<AssembleCommandReaderInterface>& reader
 	std::cout << std::setw(20) << "registers" <<" - wyswietla rejestry aktywnego procesu" << std::endl;
 	std::cout << std::setw(20) << "debug on/off" <<" - wlacza/wylacza tryb debugowania" << std::endl;
 	std::cout << std::setw(20) << "exit" <<" - zamyka konsole" << std::endl;
+	std::cout << std::setw(20) << "file" <<" - operuje na plikach. Wpisz aby uzyskac pomoc." << std::endl;
 	return 0;
 }
 
@@ -203,4 +205,61 @@ int StepIndex::doCommand(std::shared_ptr<AssembleCommandReaderInterface>& reader
 	if (shell->pcbInterpreter->commandReader == nullptr) { throw std::exception{"No active process"}; }
 	std::cout << shell->pcbInterpreter->commandReader->commandIndex <<std::endl;
 	return 0;
+}
+
+int FileCommander::doCommand(std::shared_ptr<AssembleCommandReaderInterface>& reader)
+{
+	std::shared_ptr<ConsoleCommandCreator> ccc = std::dynamic_pointer_cast<ConsoleCommandCreator>(reader);
+	Shell* shell = (Shell*)ccc->object;
+	std::string command = ccc->getCommand(), adress = ccc->getCommand();
+	if (command == "") { throw std::exception{ "file command isn't complete\nCorrectly command:\nfile create file_adress\nfile read file_adress size\nfile write file_adress text\nfile append file_adress text\n" }; }
+	if(command=="create"){
+		if (FileManager::createFile(adress)) {
+			std::cout << "Utworzono plik " << adress << std::endl;
+		}else{
+			std::cout << "Plik " << adress <<" juz istnieje" << std::endl;
+		}
+	}
+	if (!FileManager::isFileExist(adress)) { throw std::exception{ "File doesn't exist" }; }
+	FileManager file;
+	if (file.open(adress)) {
+		if (command == "read") { read(reader, file); }else
+		if (command == "write") { write(reader, file);}else
+		if (command == "size") { size(file); }
+		if (command == "append") { append(reader, file); }
+		file.close();
+	}
+	else {
+		throw std::exception{ std::string{"Cannot open file "+adress}.c_str() };
+	}
+	return 0;
+}
+
+void FileCommander::read(std::shared_ptr<AssembleCommandReaderInterface>& reader, FileManager& file)
+{
+	int count = std::atoi(reader->getCommand().c_str());
+	std::cout << file.read(count) << std::endl;
+}
+
+void FileCommander::write(std::shared_ptr<AssembleCommandReaderInterface>& reader, FileManager& file)
+{
+	std::string value;
+	int char_counter = 0;
+	while((value = reader->getCommand())!="") {
+		if (char_counter != 0) { file.write(" "); }
+		file.write(value);
+		char_counter += value.size();
+	}
+	std::cout << "Zapisano " << char_counter << " bajtow" << std::endl;
+}
+
+void FileCommander::size(FileManager& file)
+{
+	std::cout << file.getFileSize() << std::endl;
+}
+
+void FileCommander::append(std::shared_ptr<AssembleCommandReaderInterface>& reader, FileManager& file)
+{
+	file.setPosition(file.getFileSize());
+	write(reader, file);
 }

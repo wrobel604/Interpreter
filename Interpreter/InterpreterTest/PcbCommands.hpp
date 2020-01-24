@@ -146,3 +146,57 @@ public:
 	// Inherited via AssembleCommandInterface
 	virtual int doCommand(std::shared_ptr<AssembleCommandReaderInterface>& reader) override;
 };
+class CreateFile : public AssembleCommandInterface {
+public:
+
+	// Inherited via AssembleCommandInterface
+	virtual int doCommand(std::shared_ptr<AssembleCommandReaderInterface>& reader) override;
+};
+class OpenFile : public AssembleCommandInterface {
+public:
+
+	// Inherited via AssembleCommandInterface
+	virtual int doCommand(std::shared_ptr<AssembleCommandReaderInterface>& reader) override;
+};
+class CloseFile : public AssembleCommandInterface {
+public:
+
+	// Inherited via AssembleCommandInterface
+	virtual int doCommand(std::shared_ptr<AssembleCommandReaderInterface>& reader) override;
+};
+class ReadCharFile : public AssembleCommandInterface {
+public:
+
+	// Inherited via AssembleCommandInterface
+	virtual int doCommand(std::shared_ptr<AssembleCommandReaderInterface>& reader) override;
+};
+class ReadCharsFile : public AssembleCommandInterface {
+public:
+
+	// Inherited via AssembleCommandInterface
+	virtual int doCommand(std::shared_ptr<AssembleCommandReaderInterface>& reader) override;
+};
+class WriteCharFile : public AssembleCommandInterface {
+public:
+
+	// Inherited via AssembleCommandInterface
+	virtual int doCommand(std::shared_ptr<AssembleCommandReaderInterface>& reader) override;
+};
+class WriteCharsFile : public AssembleCommandInterface {
+public:
+
+	// Inherited via AssembleCommandInterface
+	virtual int doCommand(std::shared_ptr<AssembleCommandReaderInterface>& reader) override;
+};
+class GetPositionFile : public AssembleCommandInterface {
+public:
+
+	// Inherited via AssembleCommandInterface
+	virtual int doCommand(std::shared_ptr<AssembleCommandReaderInterface>& reader) override;
+};
+class SetPositionFile : public AssembleCommandInterface {
+public:
+
+	// Inherited via AssembleCommandInterface
+	virtual int doCommand(std::shared_ptr<AssembleCommandReaderInterface>& reader) override;
+};

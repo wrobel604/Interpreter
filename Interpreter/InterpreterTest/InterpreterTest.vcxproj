@@ -148,6 +148,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="ConsoleCommandCreator.cpp" />
+    <ClCompile Include="FileManager.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="NumberConversion.cpp" />
     <ClCompile Include="PCB.cpp" />
@@ -163,6 +164,7 @@
     <Text Include="asci.txt" />
     <Text Include="dummy.txt" />
     <Text Include="EqualTest.txt" />
+    <Text Include="file.txt" />
     <Text Include="memoryTest.txt" />
     <Text Include="nwd.txt" />
     <Text Include="out.txt" />
@@ -172,6 +174,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ConsoleCommandCreator.hpp" />
+    <ClInclude Include="FileManager.hpp" />
     <ClInclude Include="NumberConversion.hpp" />
     <ClInclude Include="PCB.hpp" />
     <ClInclude Include="PcbArgumentType.hpp" />
