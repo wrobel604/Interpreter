@@ -135,5 +135,9 @@ std::unique_ptr<AssembleCommandInterface> PcbCommandFactory::getCommand(std::str
 	if (commandname == "SPF") {
 		return std::make_unique<SetPositionFile>();
 	}
+	//IEF filename
+	if (commandname == "IEF") {
+		return std::make_unique<IsExistFile>();
+	}
 	return nullptr;
 }

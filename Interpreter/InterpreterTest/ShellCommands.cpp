@@ -4,6 +4,7 @@
 #include<iomanip>
 #include<string>
 #include"PcbArgumentType.hpp"
+#include"NumberConversion.hpp"
 
 int CreateProcess::doCommand(std::shared_ptr<AssembleCommandReaderInterface>& reader)
 {
@@ -11,33 +12,7 @@ int CreateProcess::doCommand(std::shared_ptr<AssembleCommandReaderInterface>& re
 	Shell* shell = (Shell*)ccc->object;
 	std::string processName = reader->getCommand();
 	if (processName != "") {
-		if (shell->pcbInterpreter->commandReader == nullptr) {
-			if (shell->pcb != nullptr) {
-				shell->pcb->state = PCB::processState::active;
-				shell->pcbInterpreter->commandReader = std::move(shell->pcb);
-				shell->pcb = std::make_shared<PCB>(processName);
-				if (shell->pcb == nullptr) {
-					std::cout << "Can't create process " << processName << std::endl;
-				}
-			}
-			else {
-				std::shared_ptr<PCB> pcb = std::make_shared<PCB>(processName);
-				if (pcb != nullptr) {
-					pcb->state = PCB::processState::active;
-					shell->pcbInterpreter->commandReader = pcb;
-				}
-				else { std::cout << "Can't create process " << processName << std::endl; }
-				
-			}
-		}
-		else {
-			if (shell->pcb == nullptr) {
-				shell->pcb = std::make_shared<PCB>(processName);
-			}
-			else {
-				std::cout << "No place to create a process";
-			}
-		}
+		shell->addProcessToQueue(std::make_shared<PCB>(processName));
 	}
 	else {
 		std::cout << "No process name\n";
@@ -54,53 +29,38 @@ int KillProcess::doCommand(std::shared_ptr<AssembleCommandReaderInterface>& read
 {
 	std::shared_ptr<ConsoleCommandCreator> ccc = std::dynamic_pointer_cast<ConsoleCommandCreator>(reader);
 	Shell* shell = (Shell*)ccc->object; 
-	if (shell->pcb != nullptr) { shell->pcb->state = PCB::processState::active; }
-	shell->pcbInterpreter->commandReader = std::move(shell->pcb);
+	shell->pcbInterpreter->commandReader = shell->getDummy();
 	return 0;
 }
 
 int StepProcess::doCommand(std::shared_ptr<AssembleCommandReaderInterface>& reader)
 {
-	int start, end;
 	std::shared_ptr<ConsoleCommandCreator> ccc = std::dynamic_pointer_cast<ConsoleCommandCreator>(reader);
 	Shell* shell = (Shell*)ccc->object;
-	if (shell->pcbInterpreter->commandReader != nullptr) {
-		start = shell->pcbInterpreter->commandReader->commandIndex;
-		end = shell->pcbInterpreter->step();
-	}
-	else {
-		if (shell->pcb != nullptr) {
-			shell->pcb->state = PCB::processState::active;
-			shell->pcbInterpreter->commandReader = std::move(shell->pcb);
-			start = shell->pcbInterpreter->commandReader->commandIndex;
-			end = shell->pcbInterpreter->step();
-		}
-		else {
-			throw std::exception("No process to do (dummy process should do now)");
+	if (shell->pcbInterpreter->commandReader == nullptr) { shell->pcbInterpreter->commandReader = shell->getDummy(); }
+	if (shell->isDummy()) {
+		std::shared_ptr<PCB> pcb = shell->removeProcessFromQueue();
+		if (pcb != nullptr) {
+			shell->pcbInterpreter->commandReader = std::move(pcb);
 		}
 	}
+	int start = shell->pcbInterpreter->commandReader->commandIndex;
+	int end = shell->pcbInterpreter->step();
 	if (shell->debug) {
 		shell->pcbInterpreter->commandReader->commandIndex = start;
-		std::cout << std::endl <<"Command: " << shell->pcbInterpreter->commandReader->getCommand() <<std::endl <<"Arguments: ";
-		while (shell->pcbInterpreter->commandReader->commandIndex < end) {
-			std::cout << shell->pcbInterpreter->commandReader->getCommand() <<" ";
+		std::string command = shell->pcbInterpreter->commandReader->getCommand();
+		std::cout << "\nCommand: " << command << std::endl <<"Arguments: ";
+		if (command == "JMP" || command == "JMZ") {
+			std::cout<< shell->pcbInterpreter->commandReader->getCommand() <<std::endl;
 		}
-		std::cout<<std::endl;
+		else {
+			while (shell->pcbInterpreter->commandReader->commandIndex < end) {
+				std::cout << shell->pcbInterpreter->commandReader->getCommand() << " ";
+			}
+			std::cout << std::endl;
+		}
 		RegistersPrint r; r.doCommand(reader);
-	}
-	if (shell->pcbInterpreter->commandReader != nullptr) {
-		std::shared_ptr<AssembleCommandReaderInterface> waitpcb;
-		switch (std::dynamic_pointer_cast<PCB>(shell->pcbInterpreter->commandReader)->state)
-		{
-		case PCB::processState::terminated:shell->pcbInterpreter->commandReader = std::move(shell->pcb); break;
-		case PCB::processState::waiting:
-			waitpcb = shell->pcbInterpreter->commandReader;
-			shell->pcbInterpreter->commandReader = std::move(shell->pcb);
-			shell->pcb = std::dynamic_pointer_cast<PCB>(waitpcb);
-			break;
-		default:
-			break;
-		}
+		shell->pcbInterpreter->commandReader->commandIndex = end;
 	}
 	return 0;
 }
@@ -109,10 +69,20 @@ int StepAllProcess::doCommand(std::shared_ptr<AssembleCommandReaderInterface>& r
 {
 	std::shared_ptr<ConsoleCommandCreator> ccc = std::dynamic_pointer_cast<ConsoleCommandCreator>(reader);
 	Shell* shell = (Shell*)ccc->object;
+	std::string countArg = ccc->getCommand();
+	int count = 0;
 	StepProcess step;
-	do {
-		step.doCommand(reader);
-	} while (shell->pcbInterpreter->commandReader != nullptr && std::dynamic_pointer_cast<PCB>(shell->pcbInterpreter->commandReader)->state == PCB::processState::active);
+	if (countArg != "") {
+		count = NumberConversion::stringToInt(countArg);
+		while(count-->0 && shell->pcbInterpreter->commandReader != nullptr && std::dynamic_pointer_cast<PCB>(shell->pcbInterpreter->commandReader)->state == PCB::processState::active){
+			step.doCommand(reader);
+		}
+	}
+	else {
+		do {
+			step.doCommand(reader);
+		} while (shell->pcbInterpreter->commandReader != nullptr && std::dynamic_pointer_cast<PCB>(shell->pcbInterpreter->commandReader)->state == PCB::processState::active);
+	}
 	return 0;
 }
 
@@ -165,6 +135,7 @@ int RegistersPrint::doCommand(std::shared_ptr<AssembleCommandReaderInterface>& r
 			flag >>= 1;
 		}
 		std::cout << std::endl;
+		std::cout << "Instruction counter: " << pcb->commandIndex << std::endl;
 	}
 	else {
 		std::cout << "No active process\n";

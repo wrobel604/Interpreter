@@ -200,3 +200,9 @@ public:
 	// Inherited via AssembleCommandInterface
 	virtual int doCommand(std::shared_ptr<AssembleCommandReaderInterface>& reader) override;
 };
+class IsExistFile : public AssembleCommandInterface {
+public:
+
+	// Inherited via AssembleCommandInterface
+	virtual int doCommand(std::shared_ptr<AssembleCommandReaderInterface>& reader) override;
+};

@@ -1,9 +1,13 @@
+IEF 'b'
+JMP 19
+END
 OPF 'b'
 WCF 'b' 'H' 
 WCF 'b' 'e' 
 WCF 'b' 'l' 
 WCF 'b' 'l' 
 WCF 'b' 'o' 
+SPF 'b' 0
 RSF 'b' 5 0
 CLF 'b'
 END

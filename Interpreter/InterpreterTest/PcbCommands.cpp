@@ -342,3 +342,11 @@ int CreateFile::doCommand(std::shared_ptr<AssembleCommandReaderInterface>& reade
 	else { pcb->Registers.setFlag(LF, false); }
 	return pcb->commandIndex;
 }
+
+int IsExistFile::doCommand(std::shared_ptr<AssembleCommandReaderInterface>& reader)
+{
+	std::shared_ptr<PCB> pcb = std::dynamic_pointer_cast<PCB>(reader);
+	PcbArgumentType filename{ pcb, pcb->getCommand() };
+	pcb->Registers.setFlag(LF, pcb->file.isFileExist(std::string{ filename.read() }));
+	return pcb->commandIndex;
+}
