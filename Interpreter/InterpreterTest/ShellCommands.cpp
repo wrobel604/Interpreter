@@ -41,6 +41,7 @@ int StepProcess::doCommand(std::shared_ptr<AssembleCommandReaderInterface>& read
 	if (shell->isDummy()) {
 		std::shared_ptr<PCB> pcb = shell->removeProcessFromQueue();
 		if (pcb != nullptr) {
+			pcb->state = PCB::processState::active;
 			shell->pcbInterpreter->commandReader = std::move(pcb);
 		}
 	}
@@ -61,6 +62,11 @@ int StepProcess::doCommand(std::shared_ptr<AssembleCommandReaderInterface>& read
 		}
 		RegistersPrint r; r.doCommand(reader);
 		shell->pcbInterpreter->commandReader->commandIndex = end;
+	}
+	std::shared_ptr<PCB> pcb = std::dynamic_pointer_cast<PCB>(shell->pcbInterpreter->commandReader);
+	if (pcb->state != PCB::processState::active) { 
+		if (pcb->state == PCB::processState::waiting) { shell->addProcessToQueue(pcb);}
+		shell->pcbInterpreter->commandReader = nullptr; 
 	}
 	return 0;
 }
