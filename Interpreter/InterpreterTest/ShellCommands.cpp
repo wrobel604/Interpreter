@@ -155,7 +155,7 @@ int DebugFlag::doCommand(std::shared_ptr<AssembleCommandReaderInterface>& reader
 	Shell* shell = (Shell*)ccc->object;
 	std::string value = reader->getCommand();
 	if (value == "on") { shell->debug = true; } else
-	if (value == "off") { shell->debug = true; }
+	if (value == "off") { shell->debug = false; }
 	return 0;
 }
 
